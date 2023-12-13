@@ -12,6 +12,7 @@
   "type": "module",
   "scripts": {
     "build": "npx tsc -b src/Prelude",
+    "docs": "npx typedoc src/Prelude/Prelude.ts src/Prelude/Runtime/Map.ts src/Prelude/Runtime/Set.ts --tsconfig src/tsconfig-base.json",
     "test": "npx tsc -b src/Tests && node --test"
   },
   "repository": {
@@ -21,9 +22,11 @@
   "author": "Jared Pon",
   "license": "ISC",
   "devDependencies": {
-    "typescript": "^5.2.2",
-    "@types/node": "^20.8.10"
+    "@types/node": "^20.8.10",
+    "typedoc": "^0.25.4",
+    "typescript": "^5.2.2"
   },
-  "files": ["./dist/Prelude/**/*"],
-  "dependencies": {}
+  "files": [
+    "./dist/Prelude/**/*"
+  ]
 }

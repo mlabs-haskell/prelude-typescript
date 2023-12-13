@@ -4,7 +4,7 @@
     flake-parts.url = "github:hercules-ci/flake-parts";
     pre-commit-hooks-nix.url = "github:cachix/pre-commit-hooks.nix";
     pre-commit-hooks-nix.inputs.nixpkgs.follows = "nixpkgs";
-    hercules-ci-effects.url = "github:hercules-ci/hercules-ci-effects";
+    hci-effects.url = "github:hercules-ci/hercules-ci-effects";
   };
 
   outputs = inputs@{ flake-parts, ... }:
@@ -12,9 +12,7 @@
       {
         systems = [ "x86_64-linux" "x86_64-darwin" ];
         imports = [
-          inputs.pre-commit-hooks-nix.flakeModule
-          inputs.hercules-ci-effects.flakeModule
-
+          ./hercules-ci.nix
           ./pre-commit.nix
         ];
         perSystem = { pkgs, config, ... }:
@@ -30,7 +28,7 @@
                   pname = packageJson.name;
                   version = packageJson.version;
                   src = ./.;
-                  npmDepsHash = "sha256-0lKTLQwKeD0Smanjhnr7AMPCM8Am/l7zOyMwegMZVuA=";
+                  npmDepsHash = "sha256-EScCx9IRBLN0WXwAwJeH84PimI8Mz22qmNdV50doFo4=";
                 };
 
               # Tarball created from `npm pack`
@@ -41,6 +39,14 @@
                   ''
                     tgzFile=$(npm --log-level=verbose pack | tail -n 1)
                     mv $tgzFile $out
+                  '';
+              }));
+
+              docs = config.packages.default.overrideAttrs (_self: (_super: {
+                npmBuildScript = "docs";
+                installPhase =
+                  ''
+                    mv ./docs $out
                   '';
               }));
 
@@ -58,11 +64,14 @@
                 # directory and point npm to the temporary directory.
                 shellHook =
                   ''
-                    # Copy the cache produced by nix somewhere else
-                    # s.t. npm may write to it
-                    TMP_DIR=$(mktemp -d)
-                    cp -r $npmDeps/. $TMP_DIR
-                    export NPM_CONFIG_CACHE=$TMP_DIR
+                    ${config.devShells.dev-pre-commit.shellHook}
+
+                     # Copy the cache produced by nix somewhere else
+                     # s.t. npm may write to it
+                     TMP_DIR=$(mktemp -d)
+                     cp -r $npmDeps/. $TMP_DIR
+                     export NPM_CONFIG_CACHE=$TMP_DIR
+                     find $TMP_DIR -exec chmod +777 {} \;
                   '';
               }));
             };

@@ -37,7 +37,7 @@
     "flake-parts_2": {
       "inputs": {
         "nixpkgs-lib": [
-          "hercules-ci-effects",
+          "hci-effects",
           "nixpkgs"
         ]
       },
@@ -93,7 +93,7 @@
         "type": "github"
       }
     },
-    "hercules-ci-effects": {
+    "hci-effects": {
       "inputs": {
         "flake-parts": "flake-parts_2",
         "nixpkgs": "nixpkgs"
@@ -205,7 +205,7 @@
     "root": {
       "inputs": {
         "flake-parts": "flake-parts",
-        "hercules-ci-effects": "hercules-ci-effects",
+        "hci-effects": "hci-effects",
         "nixpkgs": "nixpkgs_2",
         "pre-commit-hooks-nix": "pre-commit-hooks-nix"
       }
