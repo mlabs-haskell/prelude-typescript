@@ -1,7 +1,7 @@
 {
   "name": "prelude",
   "version": "1.0.0",
-  "description": "LambdaBuffers Prelude runtime",
+  "description": "A Prelude for TypeScript",
   "lockfileVersion": 2,
   "exports": {
     ".": "./dist/LambdaBuffers/Prelude.js",
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mlabs-haskell/lambda-buffers"
+    "url": "https://github.com/mlabs-haskell/prelude-typescript"
   },
   "author": "Jared Pon",
   "license": "ISC",
