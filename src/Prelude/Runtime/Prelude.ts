@@ -1,10 +1,10 @@
 import type { Json } from "./Json.js";
 import { JsonError, Scientific } from "./Json.js";
-import * as LbJson from "./Json.js";
+import * as PJson from "./Json.js";
 import type { Eq } from "./Eq.js";
 import type { Ord } from "./Ord.js";
-import * as LbMap from "./Map.js";
-import * as LbSet from "./Set.js";
+import * as PMap from "./Map.js";
+import * as PSet from "./Set.js";
 
 /**
  * {@link Eq} instance for primitive types. This simply wraps `===`.
@@ -295,7 +295,7 @@ export const jsonText: Json<Text> = {
 /**
  * {@link Map}
  */
-export type Map<K, V> = LbMap.Map<K, V>;
+export type Map<K, V> = PMap.Map<K, V>;
 
 /**
  * {@link Eq} instance for a {@link Map}. Returns true iff
@@ -306,14 +306,14 @@ export function eqMap<K, V>(dictK: Eq<K>, dictV: Eq<V>): Eq<Map<K, V>> {
   return {
     eq: (l, r) => {
       return eqList(eqPair(dictK, dictV)).eq(
-        LbMap.toList(l),
-        LbMap.toList(r),
+        PMap.toList(l),
+        PMap.toList(r),
       );
     },
     neq: (l, r) => {
       return eqList(eqPair(dictK, dictV)).neq(
-        LbMap.toList(l),
-        LbMap.toList(r),
+        PMap.toList(l),
+        PMap.toList(r),
       );
     },
   };
@@ -329,8 +329,8 @@ export function ordMap<K, V>(dictK: Ord<K>, dictV: Ord<V>): Ord<Map<K, V>> {
     neq: eqMap(dictK, dictV).neq,
     compare: (l, r) => {
       return ordList(ordPair(dictK, dictV)).compare(
-        LbMap.toList(l),
-        LbMap.toList(r),
+        PMap.toList(l),
+        PMap.toList(r),
       );
     },
   };
@@ -346,18 +346,18 @@ export function jsonMap<K, V>(
 ): Json<Map<K, V>> {
   return {
     toJson: (map) => {
-      const kvs = LbMap.toList(map);
+      const kvs = PMap.toList(map);
       return jsonList(jsonPair(dictK, dictV)).toJson(kvs);
     },
     fromJson: (value) => {
-      return LbJson.caseJsonMap<K, V>("Map", ordDict, (arg) => {
+      return PJson.caseJsonMap<K, V>("Map", ordDict, (arg) => {
         return [dictK.fromJson(arg[0]), dictV.fromJson(arg[1])];
       }, value);
     },
   };
 }
 
-export type Set<K> = LbSet.Set<K>;
+export type Set<K> = PSet.Set<K>;
 
 /**
  * {@link Eq} instance for a set. Returns true iff
@@ -367,10 +367,10 @@ export type Set<K> = LbSet.Set<K>;
 export function eqSet<K>(dictK: Eq<K>): Eq<Set<K>> {
   return {
     eq: (l, r) => {
-      return eqList(dictK).eq(LbSet.toList(l), LbSet.toList(r));
+      return eqList(dictK).eq(PSet.toList(l), PSet.toList(r));
     },
     neq: (l, r) => {
-      return eqList(dictK).neq(LbSet.toList(l), LbSet.toList(r));
+      return eqList(dictK).neq(PSet.toList(l), PSet.toList(r));
     },
   };
 }
@@ -384,7 +384,7 @@ export function ordSet<K>(dictK: Ord<K>): Ord<Set<K>> {
     eq: eqSet(dictK).eq,
     neq: eqSet(dictK).neq,
     compare: (l, r) => {
-      return ordList(dictK).compare(LbSet.toList(l), LbSet.toList(r));
+      return ordList(dictK).compare(PSet.toList(l), PSet.toList(r));
     },
   };
 }
@@ -395,17 +395,17 @@ export function ordSet<K>(dictK: Ord<K>): Ord<Set<K>> {
 export function jsonSet<K>(ordDict: Ord<K>, dictK: Json<K>): Json<Set<K>> {
   return {
     toJson: (set) => {
-      return jsonList(dictK).toJson(LbSet.toList(set));
+      return jsonList(dictK).toJson(PSet.toList(set));
     },
     fromJson: (value) => {
-      const arr = LbJson.caseJsonArray<K>("Set", dictK.fromJson, value);
+      const arr = PJson.caseJsonArray<K>("Set", dictK.fromJson, value);
 
-      const set: LbSet.Set<K> = new LbSet.Set();
+      const set: PSet.Set<K> = new PSet.Set();
       for (const k of arr) {
-        LbSet.insert(ordDict, k, set);
+        PSet.insert(ordDict, k, set);
       }
 
-      if (LbSet.toList(set).length !== arr.length) {
+      if (PSet.toList(set).length !== arr.length) {
         throw new JsonError(`Set should have unique keys`);
       }
 
@@ -487,7 +487,7 @@ export function jsonList<A>(dict: Json<A>): Json<List<A>> {
       return list.map(dict.toJson);
     },
     fromJson: (value) => {
-      return LbJson.caseJsonArray("List", dict.fromJson, value);
+      return PJson.caseJsonArray("List", dict.fromJson, value);
     },
   };
 }
@@ -541,10 +541,10 @@ export function jsonPair<L, R>(
       return [dict1.toJson(pair[0]), dict2.toJson(pair[1])];
     },
     fromJson: (value) => {
-      if (!(LbJson.isJsonArray(value) && value.length === 2)) {
+      if (!(PJson.isJsonArray(value) && value.length === 2)) {
         throw new JsonError(
           "Expected JSON Array of length 2 but got " +
-            LbJson.stringify(value),
+            PJson.stringify(value),
         );
       }
       return [dict1.fromJson(value[0]!), dict2.fromJson(value[1]!)];

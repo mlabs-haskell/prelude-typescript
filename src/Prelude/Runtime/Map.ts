@@ -1,5 +1,5 @@
 import type { Ord } from "./Ord.js";
-import * as LbAvlTree from "./AvlTree.js";
+import * as PAvlTree from "./AvlTree.js";
 import type { Node } from "./AvlTree.js";
 import type { Maybe } from "./Maybe.js";
 
@@ -8,19 +8,19 @@ import type { Maybe } from "./Maybe.js";
  *
  * @example
  * ```ts
- * import * as LbPrelude from "lbr-prelude"
+ * import * as Prelude from "lbr-prelude"
  *
  * let map : Map<string, string> = new Map();
- * insert(LbPrelude.ordString,  "a", "b", map)
- * lookup(LbPrelude.ordString,  "a", map) // returns `"b"`
+ * insert(Prelude.ordString,  "a", "b", map)
+ * lookup(Prelude.ordString,  "a", map) // returns `"b"`
  * map.length // is 1
  *
- * insert(LbPrelude.ordString. "a", "c", map)
- * lookup(LbPrelude.ordString,  "a", map) // returns `"c"`
+ * insert(Prelude.ordString. "a", "c", map)
+ * lookup(Prelude.ordString,  "a", map) // returns `"c"`
  * map.length // is 1
  *
- * remove(LbPrelude.ordString,  "a", map)
- * lookup(LbPrelude.ordString,  "a", map) // returns `undefined`
+ * remove(Prelude.ordString,  "a", map)
+ * lookup(Prelude.ordString,  "a", map) // returns `undefined`
  * map.length // is 0
  * ```
  */
@@ -66,7 +66,7 @@ export function insert<K, V>(
   value: V,
   map: Map<K, V>,
 ): void {
-  map.tree = LbAvlTree.alter(
+  map.tree = PAvlTree.alter(
     ordOnFst(ordDict),
     (arg) => {
       if (arg === undefined) {
@@ -88,7 +88,7 @@ export function insert<K, V>(
  * Complexity: `O(log n)`
  */
 export function remove<K, V>(ordDict: Ord<K>, key: K, map: Map<K, V>): void {
-  map.tree = LbAvlTree.alter(
+  map.tree = PAvlTree.alter(
     ordOnFst(ordDict),
     (arg) => {
       if (arg === undefined) {
@@ -114,7 +114,7 @@ export function lookup<K, V>(
   key: K,
   map: Readonly<Map<K, V>>,
 ): Maybe<V> {
-  const lkup: undefined | [K, V] = LbAvlTree.lookup(ordOnFst(ordDict), [
+  const lkup: undefined | [K, V] = PAvlTree.lookup(ordOnFst(ordDict), [
     key,
     null as V,
   ], map.tree);
@@ -131,7 +131,7 @@ export function lookup<K, V>(
  * Complexity: `O(n)`
  */
 export function toList<K, V>(map: Readonly<Map<K, V>>): [K, V][] {
-  return LbAvlTree.toList(map.tree);
+  return PAvlTree.toList(map.tree);
 }
 
 /**
@@ -143,5 +143,5 @@ export function checkInvariants<K, V>(
   ordDict: Ord<K>,
   map: Readonly<Map<K, V>>,
 ): void {
-  return LbAvlTree.checkInvariants(ordOnFst(ordDict), map.tree);
+  return PAvlTree.checkInvariants(ordOnFst(ordDict), map.tree);
 }

@@ -1,11 +1,11 @@
-// Unit tests for functionality in `src/LambdaBuffers/Runtime/Prelude.ts`
+// Unit tests for functionality in `src/Prelude/Runtime/Prelude.ts`
 import { describe, it } from "node:test";
 import * as assert from "node:assert/strict";
 
-import * as LbMap from "../LambdaBuffers/Runtime/Map.js";
-import * as LbSet from "../LambdaBuffers/Runtime/Set.js";
-import * as LbPrelude from "../LambdaBuffers/Prelude.js";
-import { Scientific } from "../LambdaBuffers/Prelude.js";
+import * as PMap from "../Prelude/Runtime/Map.js";
+import * as PSet from "../Prelude/Runtime/Set.js";
+import * as Prelude from "../Prelude/Prelude.js";
+import { Scientific } from "../Prelude/Prelude.js";
 import type {
   Bool,
   Char,
@@ -13,7 +13,7 @@ import type {
   Integer,
   Json,
   Value,
-} from "../LambdaBuffers/Prelude.js";
+} from "../Prelude/Prelude.js";
 
 /**
  * `eqInstanceIt` wraps `it` for verifying that the Eq instance is as expected
@@ -38,37 +38,37 @@ function jsonInstanceIt<A>(dict: Json<A>, arg: A, value: Value) {
 
 describe("Bool instance tests", () => {
   describe("Eq Bool", () => {
-    eqInstanceIt(LbPrelude.eqBool, true, true, true);
-    eqInstanceIt(LbPrelude.eqBool, false, true, false);
-    eqInstanceIt(LbPrelude.eqBool, true, false, false);
-    eqInstanceIt(LbPrelude.eqBool, false, false, true);
+    eqInstanceIt(Prelude.eqBool, true, true, true);
+    eqInstanceIt(Prelude.eqBool, false, true, false);
+    eqInstanceIt(Prelude.eqBool, true, false, false);
+    eqInstanceIt(Prelude.eqBool, false, false, true);
   });
 
   describe("Json Bool", () => {
-    jsonInstanceIt(LbPrelude.jsonBool, true, true);
-    jsonInstanceIt(LbPrelude.jsonBool, false, false);
+    jsonInstanceIt(Prelude.jsonBool, true, true);
+    jsonInstanceIt(Prelude.jsonBool, false, false);
   });
 });
 
 describe("Integer instance tests", () => {
   describe("Eq Integer", () => {
-    eqInstanceIt(LbPrelude.eqInteger, 0n, 0n, true);
-    eqInstanceIt(LbPrelude.eqInteger, 10n, 10n, true);
-    eqInstanceIt(LbPrelude.eqInteger, -10n, -10n, true);
-    eqInstanceIt(LbPrelude.eqInteger, -10n, -13n, false);
-    eqInstanceIt(LbPrelude.eqInteger, 3n, -13n, false);
+    eqInstanceIt(Prelude.eqInteger, 0n, 0n, true);
+    eqInstanceIt(Prelude.eqInteger, 10n, 10n, true);
+    eqInstanceIt(Prelude.eqInteger, -10n, -10n, true);
+    eqInstanceIt(Prelude.eqInteger, -10n, -13n, false);
+    eqInstanceIt(Prelude.eqInteger, 3n, -13n, false);
   });
 
   describe("Json Integer", () => {
-    jsonInstanceIt(LbPrelude.jsonInteger, 10n, Scientific.fromString("10"));
-    jsonInstanceIt(LbPrelude.jsonInteger, 13n, Scientific.fromString("13"));
+    jsonInstanceIt(Prelude.jsonInteger, 10n, Scientific.fromString("10"));
+    jsonInstanceIt(Prelude.jsonInteger, 13n, Scientific.fromString("13"));
     jsonInstanceIt(
-      LbPrelude.jsonInteger,
+      Prelude.jsonInteger,
       -10n,
       Scientific.fromString("-10"),
     );
     jsonInstanceIt(
-      LbPrelude.jsonInteger,
+      Prelude.jsonInteger,
       -13n,
       Scientific.fromString("-13"),
     );
@@ -78,52 +78,52 @@ describe("Integer instance tests", () => {
 describe("Bytes instance tests", () => {
   describe("Eq Bytes", () => {
     eqInstanceIt(
-      LbPrelude.eqBytes,
-      LbPrelude.bytesFromOctets("a"),
-      LbPrelude.bytesFromOctets("a"),
+      Prelude.eqBytes,
+      Prelude.bytesFromOctets("a"),
+      Prelude.bytesFromOctets("a"),
       true,
     );
     eqInstanceIt(
-      LbPrelude.eqBytes,
-      LbPrelude.bytesFromOctets("b"),
-      LbPrelude.bytesFromOctets("b"),
+      Prelude.eqBytes,
+      Prelude.bytesFromOctets("b"),
+      Prelude.bytesFromOctets("b"),
       true,
     );
     eqInstanceIt(
-      LbPrelude.eqBytes,
-      LbPrelude.bytesFromOctets("1234"),
-      LbPrelude.bytesFromOctets("1234"),
+      Prelude.eqBytes,
+      Prelude.bytesFromOctets("1234"),
+      Prelude.bytesFromOctets("1234"),
       true,
     );
     eqInstanceIt(
-      LbPrelude.eqBytes,
-      LbPrelude.bytesFromOctets("ab"),
-      LbPrelude.bytesFromOctets("ab"),
+      Prelude.eqBytes,
+      Prelude.bytesFromOctets("ab"),
+      Prelude.bytesFromOctets("ab"),
       true,
     );
     eqInstanceIt(
-      LbPrelude.eqBytes,
-      LbPrelude.bytesFromOctets("ab"),
-      LbPrelude.bytesFromOctets("a"),
+      Prelude.eqBytes,
+      Prelude.bytesFromOctets("ab"),
+      Prelude.bytesFromOctets("a"),
       false,
     );
     eqInstanceIt(
-      LbPrelude.eqBytes,
-      LbPrelude.bytesFromOctets("b"),
-      LbPrelude.bytesFromOctets("a"),
+      Prelude.eqBytes,
+      Prelude.bytesFromOctets("b"),
+      Prelude.bytesFromOctets("a"),
       false,
     );
   });
 
   describe("Json Bytes", () => {
     jsonInstanceIt(
-      LbPrelude.jsonBytes,
-      LbPrelude.bytesFromOctets("ilikedogs"),
+      Prelude.jsonBytes,
+      Prelude.bytesFromOctets("ilikedogs"),
       "aWxpa2Vkb2dz",
     );
     jsonInstanceIt(
-      LbPrelude.jsonBytes,
-      LbPrelude.bytesFromOctets("Your midas touch on your chevy door"),
+      Prelude.jsonBytes,
+      Prelude.bytesFromOctets("Your midas touch on your chevy door"),
       "WW91ciBtaWRhcyB0b3VjaCBvbiB5b3VyIGNoZXZ5IGRvb3I=",
     );
   });
@@ -132,42 +132,42 @@ describe("Bytes instance tests", () => {
 describe("Char instance tests", () => {
   describe("Eq Char", () => {
     eqInstanceIt(
-      LbPrelude.eqChar,
-      LbPrelude.charFromString("a"),
-      LbPrelude.charFromString("a"),
+      Prelude.eqChar,
+      Prelude.charFromString("a"),
+      Prelude.charFromString("a"),
       true,
     );
     eqInstanceIt(
-      LbPrelude.eqChar,
-      LbPrelude.charFromString("b"),
-      LbPrelude.charFromString("b"),
+      Prelude.eqChar,
+      Prelude.charFromString("b"),
+      Prelude.charFromString("b"),
       true,
     );
     eqInstanceIt(
-      LbPrelude.eqChar,
-      LbPrelude.charFromString("1"),
-      LbPrelude.charFromString("1"),
+      Prelude.eqChar,
+      Prelude.charFromString("1"),
+      Prelude.charFromString("1"),
       true,
     );
     eqInstanceIt(
-      LbPrelude.eqChar,
-      LbPrelude.charFromString("a"),
-      LbPrelude.charFromString("b"),
+      Prelude.eqChar,
+      Prelude.charFromString("a"),
+      Prelude.charFromString("b"),
       false,
     );
     eqInstanceIt(
-      LbPrelude.eqChar,
-      LbPrelude.charFromString("b"),
-      LbPrelude.charFromString("a"),
+      Prelude.eqChar,
+      Prelude.charFromString("b"),
+      Prelude.charFromString("a"),
       false,
     );
   });
 
   describe("Json Char", () => {
-    jsonInstanceIt(LbPrelude.jsonChar, LbPrelude.charFromString("i"), "i");
+    jsonInstanceIt(Prelude.jsonChar, Prelude.charFromString("i"), "i");
     jsonInstanceIt(
-      LbPrelude.jsonChar,
-      LbPrelude.charFromString("𠮷"),
+      Prelude.jsonChar,
+      Prelude.charFromString("𠮷"),
       "𠮷",
     );
   });
@@ -175,46 +175,46 @@ describe("Char instance tests", () => {
 
 describe("Text instance tests", () => {
   describe("Eq Text", () => {
-    eqInstanceIt(LbPrelude.eqText, "aa", "aa", true);
-    eqInstanceIt(LbPrelude.eqText, "bb", "bb", true);
-    eqInstanceIt(LbPrelude.eqText, "1", "1", true);
-    eqInstanceIt(LbPrelude.eqText, "a", "b", false);
-    eqInstanceIt(LbPrelude.eqText, "b", "a", false);
+    eqInstanceIt(Prelude.eqText, "aa", "aa", true);
+    eqInstanceIt(Prelude.eqText, "bb", "bb", true);
+    eqInstanceIt(Prelude.eqText, "1", "1", true);
+    eqInstanceIt(Prelude.eqText, "a", "b", false);
+    eqInstanceIt(Prelude.eqText, "b", "a", false);
   });
 
   describe("Json Text", () => {
-    jsonInstanceIt(LbPrelude.jsonText, "aabbbc", "aabbbc");
+    jsonInstanceIt(Prelude.jsonText, "aabbbc", "aabbbc");
   });
 });
 
 describe("Maybe instance tests", () => {
   describe("Eq Maybe", () => {
     eqInstanceIt(
-      LbPrelude.eqMaybe(LbPrelude.eqInteger),
+      Prelude.eqMaybe(Prelude.eqInteger),
       { name: "Just", fields: 212n },
       { name: "Just", fields: 212n },
       true,
     );
     eqInstanceIt(
-      LbPrelude.eqMaybe(LbPrelude.eqInteger),
+      Prelude.eqMaybe(Prelude.eqInteger),
       { name: "Just", fields: -212n },
       { name: "Just", fields: -212n },
       true,
     );
     eqInstanceIt(
-      LbPrelude.eqMaybe(LbPrelude.eqInteger),
+      Prelude.eqMaybe(Prelude.eqInteger),
       { name: "Nothing" },
       { name: "Nothing" },
       true,
     );
     eqInstanceIt(
-      LbPrelude.eqMaybe(LbPrelude.eqInteger),
+      Prelude.eqMaybe(Prelude.eqInteger),
       { name: "Nothing" },
       { name: "Just", fields: 212n },
       false,
     );
     eqInstanceIt(
-      LbPrelude.eqMaybe(LbPrelude.eqInteger),
+      Prelude.eqMaybe(Prelude.eqInteger),
       { name: "Just", fields: 212n },
       { name: "Nothing" },
       false,
@@ -222,13 +222,13 @@ describe("Maybe instance tests", () => {
   });
 
   describe("Json Maybe", () => {
-    jsonInstanceIt(LbPrelude.jsonMaybe(LbPrelude.jsonInteger), {
+    jsonInstanceIt(Prelude.jsonMaybe(Prelude.jsonInteger), {
       name: "Nothing",
     }, {
       name: "Nothing",
       fields: [],
     });
-    jsonInstanceIt(LbPrelude.jsonMaybe(LbPrelude.jsonInteger), {
+    jsonInstanceIt(Prelude.jsonMaybe(Prelude.jsonInteger), {
       name: "Just",
       fields: 12n,
     }, {
@@ -241,37 +241,37 @@ describe("Maybe instance tests", () => {
 describe("Either instance tests", () => {
   describe("Eq Either", () => {
     eqInstanceIt(
-      LbPrelude.eqEither(LbPrelude.eqInteger, LbPrelude.eqText),
+      Prelude.eqEither(Prelude.eqInteger, Prelude.eqText),
       { name: "Left", fields: 212n },
       { name: "Left", fields: 212n },
       true,
     );
     eqInstanceIt(
-      LbPrelude.eqEither(LbPrelude.eqInteger, LbPrelude.eqText),
+      Prelude.eqEither(Prelude.eqInteger, Prelude.eqText),
       { name: "Right", fields: "ever green" },
       { name: "Right", fields: "ever green" },
       true,
     );
     eqInstanceIt(
-      LbPrelude.eqEither(LbPrelude.eqInteger, LbPrelude.eqText),
+      Prelude.eqEither(Prelude.eqInteger, Prelude.eqText),
       { name: "Left", fields: 212n },
       { name: "Right", fields: "ever green" },
       false,
     );
     eqInstanceIt(
-      LbPrelude.eqEither(LbPrelude.eqInteger, LbPrelude.eqText),
+      Prelude.eqEither(Prelude.eqInteger, Prelude.eqText),
       { name: "Right", fields: "ever green" },
       { name: "Left", fields: 212n },
       false,
     );
     describe("Json Either", () => {
       jsonInstanceIt(
-        LbPrelude.jsonEither(LbPrelude.jsonInteger, LbPrelude.jsonText),
+        Prelude.jsonEither(Prelude.jsonInteger, Prelude.jsonText),
         { name: "Right", fields: "ever green" },
         { name: "Right", fields: ["ever green"] },
       );
       jsonInstanceIt(
-        LbPrelude.jsonEither(LbPrelude.jsonInteger, LbPrelude.jsonText),
+        Prelude.jsonEither(Prelude.jsonInteger, Prelude.jsonText),
         { name: "Left", fields: 212n },
         { name: "Left", fields: [Scientific.fromString("212")] },
       );
@@ -282,37 +282,37 @@ describe("Either instance tests", () => {
 describe("List instance tests", () => {
   describe("Eq List", () => {
     eqInstanceIt(
-      LbPrelude.eqList(LbPrelude.eqInteger),
+      Prelude.eqList(Prelude.eqInteger),
       [1n],
       [1n],
       true,
     );
     eqInstanceIt(
-      LbPrelude.eqList(LbPrelude.eqInteger),
+      Prelude.eqList(Prelude.eqInteger),
       [1n, 2n],
       [1n, 2n],
       true,
     );
     eqInstanceIt(
-      LbPrelude.eqList(LbPrelude.eqInteger),
+      Prelude.eqList(Prelude.eqInteger),
       [],
       [],
       true,
     );
     eqInstanceIt(
-      LbPrelude.eqList(LbPrelude.eqInteger),
+      Prelude.eqList(Prelude.eqInteger),
       [1n],
       [],
       false,
     );
     eqInstanceIt(
-      LbPrelude.eqList(LbPrelude.eqInteger),
+      Prelude.eqList(Prelude.eqInteger),
       [1n, 2n],
       [2n, 1n],
       false,
     );
     eqInstanceIt(
-      LbPrelude.eqList(LbPrelude.eqInteger),
+      Prelude.eqList(Prelude.eqInteger),
       [],
       [1n],
       false,
@@ -321,7 +321,7 @@ describe("List instance tests", () => {
 
   describe("Json List", () => {
     jsonInstanceIt(
-      LbPrelude.jsonList(LbPrelude.jsonInteger),
+      Prelude.jsonList(Prelude.jsonInteger),
       [1n, 2n, 3n],
       [
         Scientific.fromString("1"),
@@ -330,7 +330,7 @@ describe("List instance tests", () => {
       ],
     );
     jsonInstanceIt(
-      LbPrelude.jsonList(LbPrelude.jsonInteger),
+      Prelude.jsonList(Prelude.jsonInteger),
       [],
       [],
     );
@@ -340,53 +340,53 @@ describe("List instance tests", () => {
 describe("Pair instance tests", () => {
   describe("Eq Pair", () => {
     eqInstanceIt(
-      LbPrelude.eqPair(LbPrelude.eqInteger, LbPrelude.eqInteger),
+      Prelude.eqPair(Prelude.eqInteger, Prelude.eqInteger),
       [1n, 69n],
       [1n, 69n],
       true,
     );
     eqInstanceIt(
-      LbPrelude.eqPair(LbPrelude.eqInteger, LbPrelude.eqInteger),
+      Prelude.eqPair(Prelude.eqInteger, Prelude.eqInteger),
       [-69n, 2n],
       [-69n, 2n],
       true,
     );
     eqInstanceIt(
-      LbPrelude.eqPair(LbPrelude.eqInteger, LbPrelude.eqChar),
-      [-69n, LbPrelude.charFromString("a")],
-      [-69n, LbPrelude.charFromString("a")],
+      Prelude.eqPair(Prelude.eqInteger, Prelude.eqChar),
+      [-69n, Prelude.charFromString("a")],
+      [-69n, Prelude.charFromString("a")],
       true,
     );
 
     eqInstanceIt(
-      LbPrelude.eqPair(LbPrelude.eqInteger, LbPrelude.eqInteger),
+      Prelude.eqPair(Prelude.eqInteger, Prelude.eqInteger),
       [1n, 69n],
       [0n, 69n],
       false,
     );
     eqInstanceIt(
-      LbPrelude.eqPair(LbPrelude.eqInteger, LbPrelude.eqInteger),
+      Prelude.eqPair(Prelude.eqInteger, Prelude.eqInteger),
       [-69n, 2n],
       [-69n, 3n],
       false,
     );
     eqInstanceIt(
-      LbPrelude.eqPair(LbPrelude.eqInteger, LbPrelude.eqChar),
-      [-69n, LbPrelude.charFromString("b")],
-      [-69n, LbPrelude.charFromString("a")],
+      Prelude.eqPair(Prelude.eqInteger, Prelude.eqChar),
+      [-69n, Prelude.charFromString("b")],
+      [-69n, Prelude.charFromString("a")],
       false,
     );
     eqInstanceIt(
-      LbPrelude.eqPair(LbPrelude.eqInteger, LbPrelude.eqChar),
-      [-69n, LbPrelude.charFromString("b")],
-      [-68n, LbPrelude.charFromString("b")],
+      Prelude.eqPair(Prelude.eqInteger, Prelude.eqChar),
+      [-69n, Prelude.charFromString("b")],
+      [-68n, Prelude.charFromString("b")],
       false,
     );
   });
 
   describe("Json Pair", () => {
     jsonInstanceIt(
-      LbPrelude.jsonPair(LbPrelude.jsonInteger, LbPrelude.jsonInteger),
+      Prelude.jsonPair(Prelude.jsonInteger, Prelude.jsonInteger),
       [1n, 2n] as [Integer, Integer],
       [
         Scientific.fromString("1"),
@@ -394,8 +394,8 @@ describe("Pair instance tests", () => {
       ],
     );
     jsonInstanceIt(
-      LbPrelude.jsonPair(LbPrelude.jsonInteger, LbPrelude.jsonChar),
-      [1n, LbPrelude.charFromString("a")] as [Integer, Char],
+      Prelude.jsonPair(Prelude.jsonInteger, Prelude.jsonChar),
+      [1n, Prelude.charFromString("a")] as [Integer, Char],
       [
         Scientific.fromString("1"),
         "a",
@@ -407,12 +407,12 @@ describe("Pair instance tests", () => {
 describe("Set instance tests", () => {
   describe("Eq Set", () => {
     {
-      const set1: LbSet.Set<Integer> = new LbSet.Set();
-      const set2: LbSet.Set<Integer> = new LbSet.Set();
-      LbSet.insert(LbPrelude.ordInteger, 0n, set1);
-      LbSet.insert(LbPrelude.ordInteger, 0n, set2);
+      const set1: PSet.Set<Integer> = new PSet.Set();
+      const set2: PSet.Set<Integer> = new PSet.Set();
+      PSet.insert(Prelude.ordInteger, 0n, set1);
+      PSet.insert(Prelude.ordInteger, 0n, set2);
       eqInstanceIt(
-        LbPrelude.eqSet(LbPrelude.eqInteger),
+        Prelude.eqSet(Prelude.eqInteger),
         set1,
         set2,
         true,
@@ -420,28 +420,28 @@ describe("Set instance tests", () => {
     }
 
     {
-      const set1: LbSet.Set<Integer> = new LbSet.Set();
-      const set2: LbSet.Set<Integer> = new LbSet.Set();
-      LbSet.insert(LbPrelude.ordInteger, 1n, set1);
-      LbSet.insert(LbPrelude.ordInteger, 1n, set2);
-      LbSet.insert(LbPrelude.ordInteger, 0n, set1);
-      LbSet.insert(LbPrelude.ordInteger, 0n, set2);
+      const set1: PSet.Set<Integer> = new PSet.Set();
+      const set2: PSet.Set<Integer> = new PSet.Set();
+      PSet.insert(Prelude.ordInteger, 1n, set1);
+      PSet.insert(Prelude.ordInteger, 1n, set2);
+      PSet.insert(Prelude.ordInteger, 0n, set1);
+      PSet.insert(Prelude.ordInteger, 0n, set2);
       eqInstanceIt(
-        LbPrelude.eqSet(LbPrelude.eqInteger),
+        Prelude.eqSet(Prelude.eqInteger),
         set1,
         set2,
         true,
       );
     }
     {
-      const set1: LbSet.Set<Integer> = new LbSet.Set();
-      const set2: LbSet.Set<Integer> = new LbSet.Set();
-      LbSet.insert(LbPrelude.ordInteger, 1n, set1);
-      LbSet.insert(LbPrelude.ordInteger, 0n, set2);
-      LbSet.insert(LbPrelude.ordInteger, 0n, set1);
-      LbSet.insert(LbPrelude.ordInteger, 0n, set2);
+      const set1: PSet.Set<Integer> = new PSet.Set();
+      const set2: PSet.Set<Integer> = new PSet.Set();
+      PSet.insert(Prelude.ordInteger, 1n, set1);
+      PSet.insert(Prelude.ordInteger, 0n, set2);
+      PSet.insert(Prelude.ordInteger, 0n, set1);
+      PSet.insert(Prelude.ordInteger, 0n, set2);
       eqInstanceIt(
-        LbPrelude.eqSet(LbPrelude.eqInteger),
+        Prelude.eqSet(Prelude.eqInteger),
         set1,
         set2,
         false,
@@ -451,12 +451,12 @@ describe("Set instance tests", () => {
 
   describe("Json Set", () => {
     {
-      const set1: LbSet.Set<Integer> = new LbSet.Set();
-      LbSet.insert(LbPrelude.ordInteger, 1n, set1);
-      LbSet.insert(LbPrelude.ordInteger, 2n, set1);
+      const set1: PSet.Set<Integer> = new PSet.Set();
+      PSet.insert(Prelude.ordInteger, 1n, set1);
+      PSet.insert(Prelude.ordInteger, 2n, set1);
 
       jsonInstanceIt(
-        LbPrelude.jsonSet(LbPrelude.ordInteger, LbPrelude.jsonInteger),
+        Prelude.jsonSet(Prelude.ordInteger, Prelude.jsonInteger),
         set1,
         [
           Scientific.fromString("1"),
@@ -466,12 +466,12 @@ describe("Set instance tests", () => {
     }
 
     {
-      const set1: LbSet.Set<Integer> = new LbSet.Set();
-      LbSet.insert(LbPrelude.ordInteger, 1n, set1);
-      LbSet.insert(LbPrelude.ordInteger, 1n, set1);
+      const set1: PSet.Set<Integer> = new PSet.Set();
+      PSet.insert(Prelude.ordInteger, 1n, set1);
+      PSet.insert(Prelude.ordInteger, 1n, set1);
 
       jsonInstanceIt(
-        LbPrelude.jsonSet(LbPrelude.ordInteger, LbPrelude.jsonInteger),
+        Prelude.jsonSet(Prelude.ordInteger, Prelude.jsonInteger),
         set1,
         [
           Scientific.fromString("1"),
@@ -480,22 +480,22 @@ describe("Set instance tests", () => {
     }
 
     {
-      const set1: LbSet.Set<Integer> = new LbSet.Set();
-      LbSet.insert(LbPrelude.ordInteger, 1n, set1);
-      LbSet.insert(LbPrelude.ordInteger, 1n, set1);
+      const set1: PSet.Set<Integer> = new PSet.Set();
+      PSet.insert(Prelude.ordInteger, 1n, set1);
+      PSet.insert(Prelude.ordInteger, 1n, set1);
 
-      const set2: LbSet.Set<Integer> = new LbSet.Set();
-      LbSet.insert(LbPrelude.ordInteger, 1n, set2);
-      LbSet.insert(LbPrelude.ordInteger, 1n, set2);
+      const set2: PSet.Set<Integer> = new PSet.Set();
+      PSet.insert(Prelude.ordInteger, 1n, set2);
+      PSet.insert(Prelude.ordInteger, 1n, set2);
 
-      const set3: LbSet.Set<LbSet.Set<Integer>> = new LbSet.Set();
-      LbSet.insert(LbPrelude.ordSet(LbPrelude.ordInteger), set1, set3);
-      LbSet.insert(LbPrelude.ordSet(LbPrelude.ordInteger), set2, set3);
+      const set3: PSet.Set<PSet.Set<Integer>> = new PSet.Set();
+      PSet.insert(Prelude.ordSet(Prelude.ordInteger), set1, set3);
+      PSet.insert(Prelude.ordSet(Prelude.ordInteger), set2, set3);
 
       jsonInstanceIt(
-        LbPrelude.jsonSet(
-          LbPrelude.ordSet(LbPrelude.ordInteger),
-          LbPrelude.jsonSet(LbPrelude.ordInteger, LbPrelude.jsonInteger),
+        Prelude.jsonSet(
+          Prelude.ordSet(Prelude.ordInteger),
+          Prelude.jsonSet(Prelude.ordInteger, Prelude.jsonInteger),
         ),
         set3,
         [
@@ -509,12 +509,12 @@ describe("Set instance tests", () => {
 describe("Map instance tests", () => {
   describe("Eq Map", () => {
     {
-      const map1: LbMap.Map<Integer, Integer> = new LbMap.Map();
-      const map2: LbMap.Map<Integer, Integer> = new LbMap.Map();
-      LbMap.insert(LbPrelude.ordInteger, 0n, 0n, map1);
-      LbMap.insert(LbPrelude.ordInteger, 0n, 0n, map2);
+      const map1: PMap.Map<Integer, Integer> = new PMap.Map();
+      const map2: PMap.Map<Integer, Integer> = new PMap.Map();
+      PMap.insert(Prelude.ordInteger, 0n, 0n, map1);
+      PMap.insert(Prelude.ordInteger, 0n, 0n, map2);
       eqInstanceIt(
-        LbPrelude.eqMap(LbPrelude.eqInteger, LbPrelude.eqInteger),
+        Prelude.eqMap(Prelude.eqInteger, Prelude.eqInteger),
         map1,
         map2,
         true,
@@ -522,30 +522,30 @@ describe("Map instance tests", () => {
     }
 
     {
-      const map1: LbMap.Map<Integer, Integer> = new LbMap.Map();
-      const map2: LbMap.Map<Integer, Integer> = new LbMap.Map();
-      LbMap.insert(LbPrelude.ordInteger, 1n, 1n, map1);
-      LbMap.insert(LbPrelude.ordInteger, 0n, 1n, map1);
+      const map1: PMap.Map<Integer, Integer> = new PMap.Map();
+      const map2: PMap.Map<Integer, Integer> = new PMap.Map();
+      PMap.insert(Prelude.ordInteger, 1n, 1n, map1);
+      PMap.insert(Prelude.ordInteger, 0n, 1n, map1);
 
-      LbMap.insert(LbPrelude.ordInteger, 1n, 1n, map2);
-      LbMap.insert(LbPrelude.ordInteger, 0n, 1n, map2);
+      PMap.insert(Prelude.ordInteger, 1n, 1n, map2);
+      PMap.insert(Prelude.ordInteger, 0n, 1n, map2);
       eqInstanceIt(
-        LbPrelude.eqMap(LbPrelude.eqInteger, LbPrelude.eqInteger),
+        Prelude.eqMap(Prelude.eqInteger, Prelude.eqInteger),
         map1,
         map2,
         true,
       );
     }
     {
-      const map1: LbMap.Map<Integer, Integer> = new LbMap.Map();
-      const map2: LbMap.Map<Integer, Integer> = new LbMap.Map();
-      LbMap.insert(LbPrelude.ordInteger, 1n, 0n, map1);
-      LbMap.insert(LbPrelude.ordInteger, 0n, 1n, map1);
+      const map1: PMap.Map<Integer, Integer> = new PMap.Map();
+      const map2: PMap.Map<Integer, Integer> = new PMap.Map();
+      PMap.insert(Prelude.ordInteger, 1n, 0n, map1);
+      PMap.insert(Prelude.ordInteger, 0n, 1n, map1);
 
-      LbMap.insert(LbPrelude.ordInteger, 0n, 0n, map2);
-      LbMap.insert(LbPrelude.ordInteger, 0n, 1n, map2);
+      PMap.insert(Prelude.ordInteger, 0n, 0n, map2);
+      PMap.insert(Prelude.ordInteger, 0n, 1n, map2);
       eqInstanceIt(
-        LbPrelude.eqMap(LbPrelude.eqInteger, LbPrelude.eqInteger),
+        Prelude.eqMap(Prelude.eqInteger, Prelude.eqInteger),
         map1,
         map2,
         false,
@@ -553,15 +553,15 @@ describe("Map instance tests", () => {
     }
 
     {
-      const map1: LbMap.Map<Integer, Integer> = new LbMap.Map();
-      const map2: LbMap.Map<Integer, Integer> = new LbMap.Map();
-      LbMap.insert(LbPrelude.ordInteger, 0n, 0n, map1);
-      LbMap.insert(LbPrelude.ordInteger, 1n, 1n, map1);
+      const map1: PMap.Map<Integer, Integer> = new PMap.Map();
+      const map2: PMap.Map<Integer, Integer> = new PMap.Map();
+      PMap.insert(Prelude.ordInteger, 0n, 0n, map1);
+      PMap.insert(Prelude.ordInteger, 1n, 1n, map1);
 
-      LbMap.insert(LbPrelude.ordInteger, 0n, 0n, map2);
-      LbMap.insert(LbPrelude.ordInteger, 1n, 0n, map2);
+      PMap.insert(Prelude.ordInteger, 0n, 0n, map2);
+      PMap.insert(Prelude.ordInteger, 1n, 0n, map2);
       eqInstanceIt(
-        LbPrelude.eqMap(LbPrelude.eqInteger, LbPrelude.eqInteger),
+        Prelude.eqMap(Prelude.eqInteger, Prelude.eqInteger),
         map1,
         map2,
         false,
@@ -571,15 +571,15 @@ describe("Map instance tests", () => {
 
   describe("Json Map", () => {
     {
-      const map1: LbMap.Map<Integer, Integer> = new LbMap.Map();
-      LbMap.insert(LbPrelude.ordInteger, 1n, 2n, map1);
-      LbMap.insert(LbPrelude.ordInteger, 2n, 3n, map1);
+      const map1: PMap.Map<Integer, Integer> = new PMap.Map();
+      PMap.insert(Prelude.ordInteger, 1n, 2n, map1);
+      PMap.insert(Prelude.ordInteger, 2n, 3n, map1);
 
       jsonInstanceIt(
-        LbPrelude.jsonMap(
-          LbPrelude.ordInteger,
-          LbPrelude.jsonInteger,
-          LbPrelude.jsonInteger,
+        Prelude.jsonMap(
+          Prelude.ordInteger,
+          Prelude.jsonInteger,
+          Prelude.jsonInteger,
         ),
         map1,
         [
@@ -590,15 +590,15 @@ describe("Map instance tests", () => {
     }
 
     {
-      const map1: LbMap.Map<Integer, Integer> = new LbMap.Map();
-      LbMap.insert(LbPrelude.ordInteger, 1n, 12n, map1);
-      LbMap.insert(LbPrelude.ordInteger, 1n, 69n, map1);
+      const map1: PMap.Map<Integer, Integer> = new PMap.Map();
+      PMap.insert(Prelude.ordInteger, 1n, 12n, map1);
+      PMap.insert(Prelude.ordInteger, 1n, 69n, map1);
 
       jsonInstanceIt(
-        LbPrelude.jsonMap(
-          LbPrelude.ordInteger,
-          LbPrelude.jsonInteger,
-          LbPrelude.jsonInteger,
+        Prelude.jsonMap(
+          Prelude.ordInteger,
+          Prelude.jsonInteger,
+          Prelude.jsonInteger,
         ),
         map1,
         [
@@ -608,38 +608,38 @@ describe("Map instance tests", () => {
     }
 
     {
-      const map1: LbMap.Map<Integer, Integer> = new LbMap.Map();
-      LbMap.insert(LbPrelude.ordInteger, 1n, 1n, map1);
-      LbMap.insert(LbPrelude.ordInteger, 1n, 1n, map1);
+      const map1: PMap.Map<Integer, Integer> = new PMap.Map();
+      PMap.insert(Prelude.ordInteger, 1n, 1n, map1);
+      PMap.insert(Prelude.ordInteger, 1n, 1n, map1);
 
-      const map2: LbMap.Map<Integer, Integer> = new LbMap.Map();
-      LbMap.insert(LbPrelude.ordInteger, 1n, 1n, map2);
-      LbMap.insert(LbPrelude.ordInteger, 1n, 1n, map2);
+      const map2: PMap.Map<Integer, Integer> = new PMap.Map();
+      PMap.insert(Prelude.ordInteger, 1n, 1n, map2);
+      PMap.insert(Prelude.ordInteger, 1n, 1n, map2);
 
-      const map3: LbMap.Map<LbMap.Map<Integer, Integer>, Integer> = new LbMap
+      const map3: PMap.Map<PMap.Map<Integer, Integer>, Integer> = new PMap
         .Map();
-      LbMap.insert(
-        LbPrelude.ordMap(LbPrelude.ordInteger, LbPrelude.ordInteger),
+      PMap.insert(
+        Prelude.ordMap(Prelude.ordInteger, Prelude.ordInteger),
         map1,
         0n,
         map3,
       );
-      LbMap.insert(
-        LbPrelude.ordMap(LbPrelude.ordInteger, LbPrelude.ordInteger),
+      PMap.insert(
+        Prelude.ordMap(Prelude.ordInteger, Prelude.ordInteger),
         map2,
         0n,
         map3,
       );
 
       jsonInstanceIt(
-        LbPrelude.jsonMap(
-          LbPrelude.ordMap(LbPrelude.ordInteger, LbPrelude.ordInteger),
-          LbPrelude.jsonMap(
-            LbPrelude.ordInteger,
-            LbPrelude.jsonInteger,
-            LbPrelude.jsonInteger,
+        Prelude.jsonMap(
+          Prelude.ordMap(Prelude.ordInteger, Prelude.ordInteger),
+          Prelude.jsonMap(
+            Prelude.ordInteger,
+            Prelude.jsonInteger,
+            Prelude.jsonInteger,
           ),
-          LbPrelude.jsonInteger,
+          Prelude.jsonInteger,
         ),
         map3,
         [

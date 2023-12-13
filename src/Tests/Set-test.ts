@@ -1,10 +1,10 @@
 // Mostly duplicated tests from `./Map-test.ts`
 import { describe } from "node:test";
 
-import * as LbPrelude from "../LambdaBuffers/Prelude.js";
-import { Set } from "../LambdaBuffers/Runtime/Set.js";
-import * as LbSet from "../LambdaBuffers/Runtime/Set.js";
-import type { Ord } from "../LambdaBuffers/Prelude.js";
+import * as Prelude from "../Prelude/Prelude.js";
+import { Set } from "../Prelude/Runtime/Set.js";
+import * as PSet from "../Prelude/Runtime/Set.js";
+import type { Ord } from "../Prelude/Prelude.js";
 
 /**
  * Inserts the element in the set and checks
@@ -16,10 +16,10 @@ export function insertAndCheck<K>(
   k: K,
   set: Set<K>,
 ) {
-  LbSet.insert(ordDict, k, set);
-  LbSet.checkInvariants(ordDict, set);
+  PSet.insert(ordDict, k, set);
+  PSet.checkInvariants(ordDict, set);
 
-  const lkup = LbSet.member(ordDict, k, set);
+  const lkup = PSet.member(ordDict, k, set);
 
   if (!lkup) {
     throw new Error(
@@ -29,10 +29,10 @@ export function insertAndCheck<K>(
 }
 
 export function removeAndCheck<K>(ordDict: Ord<K>, k: K, set: Set<K>) {
-  LbSet.remove(ordDict, k, set);
-  LbSet.checkInvariants(ordDict, set);
+  PSet.remove(ordDict, k, set);
+  PSet.checkInvariants(ordDict, set);
 
-  if (LbSet.member(ordDict, k, set)) {
+  if (PSet.member(ordDict, k, set)) {
     throw new Error(
       `Removal failed for ${k} for set ${JSON.stringify(set.tree)}`,
     );
@@ -58,31 +58,31 @@ describe("Set tests", () => {
     const set: Set<number> = new Set();
 
     checkSetLength(set, 0);
-    insertAndCheck(LbPrelude.ordPrimitive, 0, set);
+    insertAndCheck(Prelude.ordPrimitive, 0, set);
     checkSetLength(set, 1);
-    insertAndCheck(LbPrelude.ordPrimitive, 1, set);
+    insertAndCheck(Prelude.ordPrimitive, 1, set);
     checkSetLength(set, 2);
-    insertAndCheck(LbPrelude.ordPrimitive, 2, set);
+    insertAndCheck(Prelude.ordPrimitive, 2, set);
     checkSetLength(set, 3);
-    insertAndCheck(LbPrelude.ordPrimitive, 3, set);
+    insertAndCheck(Prelude.ordPrimitive, 3, set);
     checkSetLength(set, 4);
-    insertAndCheck(LbPrelude.ordPrimitive, 4, set);
+    insertAndCheck(Prelude.ordPrimitive, 4, set);
     checkSetLength(set, 5);
-    insertAndCheck(LbPrelude.ordPrimitive, 5, set);
+    insertAndCheck(Prelude.ordPrimitive, 5, set);
     checkSetLength(set, 6);
-    insertAndCheck(LbPrelude.ordPrimitive, 6, set);
+    insertAndCheck(Prelude.ordPrimitive, 6, set);
     checkSetLength(set, 7);
-    insertAndCheck(LbPrelude.ordPrimitive, 7, set);
+    insertAndCheck(Prelude.ordPrimitive, 7, set);
     checkSetLength(set, 8);
-    insertAndCheck(LbPrelude.ordPrimitive, 8, set);
+    insertAndCheck(Prelude.ordPrimitive, 8, set);
     checkSetLength(set, 9);
-    insertAndCheck(LbPrelude.ordPrimitive, 9, set);
+    insertAndCheck(Prelude.ordPrimitive, 9, set);
     checkSetLength(set, 10);
-    insertAndCheck(LbPrelude.ordPrimitive, 10, set);
+    insertAndCheck(Prelude.ordPrimitive, 10, set);
     checkSetLength(set, 11);
 
     for (let i = 0; i <= 10; ++i) {
-      if (!LbSet.member(LbPrelude.ordPrimitive, i, set)) {
+      if (!PSet.member(Prelude.ordPrimitive, i, set)) {
         throw new Error(
           `${i} not found in the set: ${JSON.stringify(set.tree)}`,
         );
@@ -92,7 +92,7 @@ describe("Set tests", () => {
     }
 
     for (let i = 11; i <= 20; ++i) {
-      if (LbSet.member(LbPrelude.ordPrimitive, i, set)) {
+      if (PSet.member(Prelude.ordPrimitive, i, set)) {
         throw new Error(`${i} is in the set: ${JSON.stringify(set.tree)}`);
       }
     }
@@ -102,31 +102,31 @@ describe("Set tests", () => {
     const set: Set<number> = new Set();
 
     checkSetLength(set, 0);
-    insertAndCheck(LbPrelude.ordPrimitive, 10, set);
+    insertAndCheck(Prelude.ordPrimitive, 10, set);
     checkSetLength(set, 1);
-    insertAndCheck(LbPrelude.ordPrimitive, 9, set);
+    insertAndCheck(Prelude.ordPrimitive, 9, set);
     checkSetLength(set, 2);
-    insertAndCheck(LbPrelude.ordPrimitive, 8, set);
+    insertAndCheck(Prelude.ordPrimitive, 8, set);
     checkSetLength(set, 3);
-    insertAndCheck(LbPrelude.ordPrimitive, 7, set);
+    insertAndCheck(Prelude.ordPrimitive, 7, set);
     checkSetLength(set, 4);
-    insertAndCheck(LbPrelude.ordPrimitive, 6, set);
+    insertAndCheck(Prelude.ordPrimitive, 6, set);
     checkSetLength(set, 5);
-    insertAndCheck(LbPrelude.ordPrimitive, 5, set);
+    insertAndCheck(Prelude.ordPrimitive, 5, set);
     checkSetLength(set, 6);
-    insertAndCheck(LbPrelude.ordPrimitive, 4, set);
+    insertAndCheck(Prelude.ordPrimitive, 4, set);
     checkSetLength(set, 7);
-    insertAndCheck(LbPrelude.ordPrimitive, 3, set);
+    insertAndCheck(Prelude.ordPrimitive, 3, set);
     checkSetLength(set, 8);
-    insertAndCheck(LbPrelude.ordPrimitive, 2, set);
+    insertAndCheck(Prelude.ordPrimitive, 2, set);
     checkSetLength(set, 9);
-    insertAndCheck(LbPrelude.ordPrimitive, 1, set);
+    insertAndCheck(Prelude.ordPrimitive, 1, set);
     checkSetLength(set, 10);
-    insertAndCheck(LbPrelude.ordPrimitive, 0, set);
+    insertAndCheck(Prelude.ordPrimitive, 0, set);
     checkSetLength(set, 11);
 
     for (let i = 0; i <= 10; ++i) {
-      if (!LbSet.member(LbPrelude.ordPrimitive, i, set)) {
+      if (!PSet.member(Prelude.ordPrimitive, i, set)) {
         throw new Error(
           `${i} not found in the set: ${JSON.stringify(set.tree)}`,
         );
@@ -135,7 +135,7 @@ describe("Set tests", () => {
     }
 
     for (let i = 11; i <= 20; ++i) {
-      if (LbSet.member(LbPrelude.ordPrimitive, i, set)) {
+      if (PSet.member(Prelude.ordPrimitive, i, set)) {
         throw new Error(`${i} is in the set: ${JSON.stringify(set.tree)}`);
       }
     }
@@ -144,15 +144,15 @@ describe("Set tests", () => {
   describe("Inserting the same element doesn't change the size", () => {
     const set: Set<number> = new Set();
 
-    insertAndCheck(LbPrelude.ordPrimitive, 0, set);
+    insertAndCheck(Prelude.ordPrimitive, 0, set);
     checkSetLength(set, 1);
-    insertAndCheck(LbPrelude.ordPrimitive, 0, set);
+    insertAndCheck(Prelude.ordPrimitive, 0, set);
     checkSetLength(set, 1);
-    insertAndCheck(LbPrelude.ordPrimitive, 0, set);
+    insertAndCheck(Prelude.ordPrimitive, 0, set);
     checkSetLength(set, 1);
-    insertAndCheck(LbPrelude.ordPrimitive, 0, set);
+    insertAndCheck(Prelude.ordPrimitive, 0, set);
     checkSetLength(set, 1);
-    insertAndCheck(LbPrelude.ordPrimitive, 0, set);
+    insertAndCheck(Prelude.ordPrimitive, 0, set);
     checkSetLength(set, 1);
   });
 
@@ -160,31 +160,31 @@ describe("Set tests", () => {
     const set: Set<number> = new Set();
 
     checkSetLength(set, 0);
-    insertAndCheck(LbPrelude.ordPrimitive, 9, set);
+    insertAndCheck(Prelude.ordPrimitive, 9, set);
     checkSetLength(set, 1);
-    insertAndCheck(LbPrelude.ordPrimitive, 7, set);
+    insertAndCheck(Prelude.ordPrimitive, 7, set);
     checkSetLength(set, 2);
-    insertAndCheck(LbPrelude.ordPrimitive, 8, set);
+    insertAndCheck(Prelude.ordPrimitive, 8, set);
     checkSetLength(set, 3);
-    insertAndCheck(LbPrelude.ordPrimitive, 10, set);
+    insertAndCheck(Prelude.ordPrimitive, 10, set);
     checkSetLength(set, 4);
-    insertAndCheck(LbPrelude.ordPrimitive, 5, set);
+    insertAndCheck(Prelude.ordPrimitive, 5, set);
     checkSetLength(set, 5);
-    insertAndCheck(LbPrelude.ordPrimitive, 1, set);
+    insertAndCheck(Prelude.ordPrimitive, 1, set);
     checkSetLength(set, 6);
-    insertAndCheck(LbPrelude.ordPrimitive, 6, set);
+    insertAndCheck(Prelude.ordPrimitive, 6, set);
     checkSetLength(set, 7);
-    insertAndCheck(LbPrelude.ordPrimitive, 3, set);
+    insertAndCheck(Prelude.ordPrimitive, 3, set);
     checkSetLength(set, 8);
-    insertAndCheck(LbPrelude.ordPrimitive, 0, set);
+    insertAndCheck(Prelude.ordPrimitive, 0, set);
     checkSetLength(set, 9);
-    insertAndCheck(LbPrelude.ordPrimitive, 4, set);
+    insertAndCheck(Prelude.ordPrimitive, 4, set);
     checkSetLength(set, 10);
-    insertAndCheck(LbPrelude.ordPrimitive, 2, set);
+    insertAndCheck(Prelude.ordPrimitive, 2, set);
     checkSetLength(set, 11);
 
     for (let i = 0; i <= 10; ++i) {
-      if (!LbSet.member(LbPrelude.ordPrimitive, i, set)) {
+      if (!PSet.member(Prelude.ordPrimitive, i, set)) {
         throw new Error(
           `${i} not found in the set: ${JSON.stringify(set.tree)}`,
         );
@@ -193,7 +193,7 @@ describe("Set tests", () => {
     }
 
     for (let i = 11; i <= 20; ++i) {
-      if (LbSet.member(LbPrelude.ordPrimitive, i, set)) {
+      if (PSet.member(Prelude.ordPrimitive, i, set)) {
         throw new Error(`${i} is in the set: ${JSON.stringify(set.tree)}`);
       }
     }
@@ -202,31 +202,31 @@ describe("Set tests", () => {
   describe("Assorted insertion invariant checks 2.", () => {
     const set: Set<number> = new Set();
     checkSetLength(set, 0);
-    insertAndCheck(LbPrelude.ordPrimitive, 2, set);
+    insertAndCheck(Prelude.ordPrimitive, 2, set);
     checkSetLength(set, 1);
-    insertAndCheck(LbPrelude.ordPrimitive, 4, set);
+    insertAndCheck(Prelude.ordPrimitive, 4, set);
     checkSetLength(set, 2);
-    insertAndCheck(LbPrelude.ordPrimitive, 0, set);
+    insertAndCheck(Prelude.ordPrimitive, 0, set);
     checkSetLength(set, 3);
-    insertAndCheck(LbPrelude.ordPrimitive, 3, set);
+    insertAndCheck(Prelude.ordPrimitive, 3, set);
     checkSetLength(set, 4);
-    insertAndCheck(LbPrelude.ordPrimitive, 6, set);
+    insertAndCheck(Prelude.ordPrimitive, 6, set);
     checkSetLength(set, 5);
-    insertAndCheck(LbPrelude.ordPrimitive, 1, set);
+    insertAndCheck(Prelude.ordPrimitive, 1, set);
     checkSetLength(set, 6);
-    insertAndCheck(LbPrelude.ordPrimitive, 5, set);
+    insertAndCheck(Prelude.ordPrimitive, 5, set);
     checkSetLength(set, 7);
-    insertAndCheck(LbPrelude.ordPrimitive, 10, set);
+    insertAndCheck(Prelude.ordPrimitive, 10, set);
     checkSetLength(set, 8);
-    insertAndCheck(LbPrelude.ordPrimitive, 8, set);
+    insertAndCheck(Prelude.ordPrimitive, 8, set);
     checkSetLength(set, 9);
-    insertAndCheck(LbPrelude.ordPrimitive, 7, set);
+    insertAndCheck(Prelude.ordPrimitive, 7, set);
     checkSetLength(set, 10);
-    insertAndCheck(LbPrelude.ordPrimitive, 9, set);
+    insertAndCheck(Prelude.ordPrimitive, 9, set);
     checkSetLength(set, 11);
 
     for (let i = 0; i <= 10; ++i) {
-      if (!LbSet.member(LbPrelude.ordPrimitive, i, set)) {
+      if (!PSet.member(Prelude.ordPrimitive, i, set)) {
         throw new Error(
           `${i} not found in the set: ${JSON.stringify(set.tree)}`,
         );
@@ -235,7 +235,7 @@ describe("Set tests", () => {
     }
 
     for (let i = 11; i <= 20; ++i) {
-      if (LbSet.member(LbPrelude.ordPrimitive, i, set)) {
+      if (PSet.member(Prelude.ordPrimitive, i, set)) {
         throw new Error(`${i} is in the set: ${JSON.stringify(set.tree)}`);
       }
     }
@@ -251,11 +251,11 @@ describe("Set tests", () => {
       const v = randomIntUpToButNotIncluding(NUM_INSERTIONS);
       insertions[k] = v;
 
-      insertAndCheck(LbPrelude.ordPrimitive, k, set);
+      insertAndCheck(Prelude.ordPrimitive, k, set);
     }
 
     for (const [key, _value] of Object.entries(insertions)) {
-      if (!LbSet.member(LbPrelude.ordPrimitive, key, set)) {
+      if (!PSet.member(Prelude.ordPrimitive, key, set)) {
         throw new Error(
           `${key} is not in the set: ${JSON.stringify(set.tree)}`,
         );
@@ -274,11 +274,11 @@ describe("Set tests", () => {
       const v = 0;
       insertions[k] = v;
 
-      insertAndCheck(LbPrelude.ordPrimitive, k, set);
+      insertAndCheck(Prelude.ordPrimitive, k, set);
     }
 
     for (const [key, _value] of Object.entries(insertions)) {
-      if (!LbSet.member(LbPrelude.ordPrimitive, key, set)) {
+      if (!PSet.member(Prelude.ordPrimitive, key, set)) {
         throw new Error(
           `${key} is not in the set: ${JSON.stringify(set.tree)}`,
         );
@@ -289,52 +289,52 @@ describe("Set tests", () => {
   describe("Small ascending insertion / deletion invariant checks 1.", () => {
     const set: Set<number> = new Set();
 
-    insertAndCheck(LbPrelude.ordPrimitive, 0, set);
-    insertAndCheck(LbPrelude.ordPrimitive, 1, set);
-    insertAndCheck(LbPrelude.ordPrimitive, 2, set);
-    insertAndCheck(LbPrelude.ordPrimitive, 3, set);
+    insertAndCheck(Prelude.ordPrimitive, 0, set);
+    insertAndCheck(Prelude.ordPrimitive, 1, set);
+    insertAndCheck(Prelude.ordPrimitive, 2, set);
+    insertAndCheck(Prelude.ordPrimitive, 3, set);
     checkSetLength(set, 4);
 
-    removeAndCheck(LbPrelude.ordPrimitive, 3, set);
+    removeAndCheck(Prelude.ordPrimitive, 3, set);
     checkSetLength(set, 3);
 
-    removeAndCheck(LbPrelude.ordPrimitive, 0, set);
+    removeAndCheck(Prelude.ordPrimitive, 0, set);
     checkSetLength(set, 2);
 
-    insertAndCheck(LbPrelude.ordPrimitive, 0, set);
+    insertAndCheck(Prelude.ordPrimitive, 0, set);
     checkSetLength(set, 3);
 
-    removeAndCheck(LbPrelude.ordPrimitive, 2, set);
+    removeAndCheck(Prelude.ordPrimitive, 2, set);
     checkSetLength(set, 2);
   });
 
   describe("Small ascending insertion / deletion invariant checks 2.", () => {
     const set: Set<number> = new Set();
 
-    insertAndCheck(LbPrelude.ordPrimitive, 3, set);
-    insertAndCheck(LbPrelude.ordPrimitive, 0, set);
-    insertAndCheck(LbPrelude.ordPrimitive, 2, set);
+    insertAndCheck(Prelude.ordPrimitive, 3, set);
+    insertAndCheck(Prelude.ordPrimitive, 0, set);
+    insertAndCheck(Prelude.ordPrimitive, 2, set);
     checkSetLength(set, 3);
-    removeAndCheck(LbPrelude.ordPrimitive, 3, set);
+    removeAndCheck(Prelude.ordPrimitive, 3, set);
     checkSetLength(set, 2);
-    insertAndCheck(LbPrelude.ordPrimitive, 1, set);
+    insertAndCheck(Prelude.ordPrimitive, 1, set);
     checkSetLength(set, 3);
-    removeAndCheck(LbPrelude.ordPrimitive, 0, set);
+    removeAndCheck(Prelude.ordPrimitive, 0, set);
     checkSetLength(set, 2);
-    insertAndCheck(LbPrelude.ordPrimitive, 0, set);
+    insertAndCheck(Prelude.ordPrimitive, 0, set);
     checkSetLength(set, 3);
-    removeAndCheck(LbPrelude.ordPrimitive, 2, set);
+    removeAndCheck(Prelude.ordPrimitive, 2, set);
     checkSetLength(set, 2);
   });
 
   describe("Small ascending insertion / deletion invariant checks 3.", () => {
     const set: Set<number> = new Set();
 
-    insertAndCheck(LbPrelude.ordPrimitive, 3, set);
-    insertAndCheck(LbPrelude.ordPrimitive, 0, set);
-    insertAndCheck(LbPrelude.ordPrimitive, 2, set);
+    insertAndCheck(Prelude.ordPrimitive, 3, set);
+    insertAndCheck(Prelude.ordPrimitive, 0, set);
+    insertAndCheck(Prelude.ordPrimitive, 2, set);
     checkSetLength(set, 3);
-    removeAndCheck(LbPrelude.ordPrimitive, 69, set);
+    removeAndCheck(Prelude.ordPrimitive, 69, set);
     checkSetLength(set, 3);
   });
 
@@ -354,7 +354,7 @@ describe("Set tests", () => {
           insertions[parseInt(keys[Math.floor(keys.length * Math.random())]!)]!;
         delete insertions[randomkey];
 
-        removeAndCheck(LbPrelude.ordPrimitive, randomkey, set);
+        removeAndCheck(Prelude.ordPrimitive, randomkey, set);
       } else {
         // insert
         const k = randomIntUpToButNotIncluding(NUM_INSERTIONS_DELETIONS);
@@ -362,7 +362,7 @@ describe("Set tests", () => {
         insertions[k] = v;
 
         insertAndCheck(
-          LbPrelude.ordPrimitive,
+          Prelude.ordPrimitive,
           k,
           set,
         );
@@ -371,7 +371,7 @@ describe("Set tests", () => {
     }
 
     for (const [key, _value] of Object.entries(insertions)) {
-      if (!LbSet.member(LbPrelude.ordPrimitive, key, set)) {
+      if (!PSet.member(Prelude.ordPrimitive, key, set)) {
         throw new Error(
           `${key} is not in the set: ${JSON.stringify(set.tree)}`,
         );
@@ -398,14 +398,14 @@ describe("Set tests", () => {
           insertions[parseInt(keys[Math.floor(keys.length * Math.random())]!)]!;
         delete insertions[randomkey];
 
-        removeAndCheck(LbPrelude.ordPrimitive, randomkey, set);
+        removeAndCheck(Prelude.ordPrimitive, randomkey, set);
       } else {
         // insert
         const k = randomIntUpToButNotIncluding(NUM_INSERTIONS_DELETIONS / 4);
         insertions[k] = 0;
 
         insertAndCheck(
-          LbPrelude.ordPrimitive,
+          Prelude.ordPrimitive,
           k,
           set,
         );
@@ -414,7 +414,7 @@ describe("Set tests", () => {
     }
 
     for (const [key, _value] of Object.entries(insertions)) {
-      if (!LbSet.member(LbPrelude.ordPrimitive, key, set)) {
+      if (!PSet.member(Prelude.ordPrimitive, key, set)) {
         throw new Error(
           `${key} is not in the set: ${JSON.stringify(set.tree)}`,
         );
@@ -427,12 +427,12 @@ describe("Set tests", () => {
   describe("toList ascending string tests", () => {
     const set: Set<string> = new Set();
 
-    insertAndCheck(LbPrelude.ordPrimitive, "b", set);
-    insertAndCheck(LbPrelude.ordPrimitive, "a", set);
-    insertAndCheck(LbPrelude.ordPrimitive, "d", set);
+    insertAndCheck(Prelude.ordPrimitive, "b", set);
+    insertAndCheck(Prelude.ordPrimitive, "a", set);
+    insertAndCheck(Prelude.ordPrimitive, "d", set);
 
     const old = "";
-    for (const k of LbSet.toList(set)) {
+    for (const k of PSet.toList(set)) {
       if (!(old < k)) {
         throw new Error("toList not strictly increasing");
       }

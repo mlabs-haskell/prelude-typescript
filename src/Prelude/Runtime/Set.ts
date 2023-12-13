@@ -1,5 +1,5 @@
 import type { Ord } from "./Ord.js";
-import * as LbAvlTree from "./AvlTree.js";
+import * as PAvlTree from "./AvlTree.js";
 import type { Node } from "./AvlTree.js";
 
 /**
@@ -25,7 +25,7 @@ export function insert<K>(
   key: K,
   set: Set<K>,
 ): void {
-  set.tree = LbAvlTree.alter(
+  set.tree = PAvlTree.alter(
     ordDict,
     (arg) => {
       if (arg === undefined) {
@@ -47,7 +47,7 @@ export function insert<K>(
  * Complexity: `O(log n)`
  */
 export function remove<K>(ordDict: Ord<K>, key: K, set: Set<K>): void {
-  set.tree = LbAvlTree.alter(
+  set.tree = PAvlTree.alter(
     ordDict,
     (arg) => {
       if (arg === undefined) {
@@ -72,7 +72,7 @@ export function member<K>(
   key: K,
   set: Readonly<Set<K>>,
 ): boolean {
-  return LbAvlTree.lookup(ordDict, key, set.tree) !== undefined;
+  return PAvlTree.lookup(ordDict, key, set.tree) !== undefined;
 }
 
 /**
@@ -84,7 +84,7 @@ export function checkInvariants<K>(
   ordDict: Ord<K>,
   set: Readonly<Set<K>>,
 ): void {
-  return LbAvlTree.checkInvariants(ordDict, set.tree);
+  return PAvlTree.checkInvariants(ordDict, set.tree);
 }
 
 /**
@@ -93,5 +93,5 @@ export function checkInvariants<K>(
  * Complexity: `O(n)`
  */
 export function toList<K>(set: Readonly<Set<K>>): K[] {
-  return LbAvlTree.toList(set.tree);
+  return PAvlTree.toList(set.tree);
 }

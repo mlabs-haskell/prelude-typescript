@@ -1,5 +1,5 @@
 import type { Ord } from "./Ord.js";
-import * as LbMap from "./Map.js";
+import * as PMap from "./Map.js";
 /**
  * `Json<A>` is a type class to provide `toJson` and `fromJson` instances for
  * type `A`.
@@ -295,9 +295,9 @@ export function caseJsonMap<K, V>(
   dictOrd: Ord<K>,
   parseElem: (arg: [Value, Value]) => [K, V],
   value: Readonly<Value>,
-): LbMap.Map<K, V> {
+): PMap.Map<K, V> {
   // TODO(jaredponn): actually use `title` in the error messages.
-  const map: LbMap.Map<K, V> = new LbMap.Map();
+  const map: PMap.Map<K, V> = new PMap.Map();
 
   if (!isJsonArray(value)) {
     throw new JsonError(`Expected JSON array`);
@@ -310,10 +310,10 @@ export function caseJsonMap<K, V>(
 
     const [k, v] = parseElem(kv as [Value, Value]);
 
-    LbMap.insert(dictOrd, k, v, map);
+    PMap.insert(dictOrd, k, v, map);
   }
 
-  if (LbMap.toList(map).length !== value.length) {
+  if (PMap.toList(map).length !== value.length) {
     throw new JsonError(`Map should have unique keys`);
   }
 

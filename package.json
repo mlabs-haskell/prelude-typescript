@@ -4,14 +4,14 @@
   "description": "A Prelude for TypeScript",
   "lockfileVersion": 2,
   "exports": {
-    ".": "./dist/LambdaBuffers/Prelude.js",
-    "./Map.js": "./dist/LambdaBuffers/Runtime/Map.js",
-    "./Set.js": "./dist/LambdaBuffers/Runtime/Set.js",
+    ".": "./dist/Prelude/Prelude.js",
+    "./Map.js": "./dist/Prelude/Runtime/Map.js",
+    "./Set.js": "./dist/Prelude/Runtime/Set.js",
     "./package.json": "./package.json"
   },
   "type": "module",
   "scripts": {
-    "build": "npx tsc -b src/LambdaBuffers",
+    "build": "npx tsc -b src/Prelude",
     "test": "npx tsc -b src/Tests && node --test"
   },
   "repository": {
@@ -24,6 +24,6 @@
     "typescript": "^5.2.2",
     "@types/node": "^20.8.10"
   },
-  "files": ["./dist/LambdaBuffers/**/*"],
+  "files": ["./dist/Prelude/**/*"],
   "dependencies": {}
 }

@@ -2,7 +2,7 @@
   "files": [],
   "include": [],
   "references": [
-    { "path": "./LambdaBuffers" },
+    { "path": "./Prelude" },
     { "path": "./Tests" }
   ]
 }

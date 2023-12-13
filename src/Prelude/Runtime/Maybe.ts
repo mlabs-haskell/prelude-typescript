@@ -1,4 +1,4 @@
-import * as LbJson from "./Json.js";
+import * as PJson from "./Json.js";
 import type { Eq } from "./Eq.js";
 import type { Ord } from "./Ord.js";
 import type { Json } from "./Json.js";
@@ -81,20 +81,20 @@ export function jsonMaybe<A>(dict: Json<A>): Json<Maybe<A>> {
   return {
     toJson: (maybe) => {
       if (maybe.name === "Nothing") {
-        return LbJson.jsonConstructor("Nothing", []);
+        return PJson.jsonConstructor("Nothing", []);
       } else {
-        return LbJson.jsonConstructor("Just", [dict.toJson(maybe.fields)]);
+        return PJson.jsonConstructor("Just", [dict.toJson(maybe.fields)]);
       }
     },
     fromJson: (value) => {
-      return LbJson.caseJsonConstructor<Maybe<A>>("Prelude.Maybe", {
+      return PJson.caseJsonConstructor<Maybe<A>>("Prelude.Maybe", {
         "Nothing": (ctorFields) => {
           if (ctorFields.length === 0) {
             return { name: "Nothing" };
           } else {
             throw new JsonError(
               "Expected JSON Array with 0 fields but got" +
-                LbJson.stringify(value),
+                PJson.stringify(value),
             );
           }
         },
@@ -104,7 +104,7 @@ export function jsonMaybe<A>(dict: Json<A>): Json<Maybe<A>> {
           } else {
             throw new JsonError(
               "Expected JSON Array with 1 fields but got" +
-                LbJson.stringify(value),
+                PJson.stringify(value),
             );
           }
         },

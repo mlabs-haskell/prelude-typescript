@@ -1,4 +1,4 @@
-import * as LbJson from "./Json.js";
+import * as PJson from "./Json.js";
 import type { Eq } from "./Eq.js";
 import type { Ord } from "./Ord.js";
 import type { Json } from "./Json.js";
@@ -72,17 +72,17 @@ export function jsonEither<L, R>(
   return {
     toJson: (either) => {
       if (either.name === "Left") {
-        return LbJson.jsonConstructor("Left", [
+        return PJson.jsonConstructor("Left", [
           dict1.toJson(either.fields),
         ]);
       } else {
-        return LbJson.jsonConstructor("Right", [
+        return PJson.jsonConstructor("Right", [
           dict2.toJson(either.fields),
         ]);
       }
     },
     fromJson: (value) => {
-      return LbJson.caseJsonConstructor<Either<L, R>>("Prelude.Either", {
+      return PJson.caseJsonConstructor<Either<L, R>>("Prelude.Either", {
         "Left": (ctorFields) => {
           if (ctorFields.length === 1) {
             return {
@@ -92,7 +92,7 @@ export function jsonEither<L, R>(
           } else {
             throw new JsonError(
               "Expected JSON Array with 1 fields but got" +
-                LbJson.stringify(value),
+                PJson.stringify(value),
             );
           }
         },
@@ -105,7 +105,7 @@ export function jsonEither<L, R>(
           } else {
             throw new JsonError(
               "Expected JSON Array with 1 fields but got" +
-                LbJson.stringify(value),
+                PJson.stringify(value),
             );
           }
         },

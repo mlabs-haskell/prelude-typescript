@@ -1,10 +1,10 @@
-// Unit tests for functionality in `src/LambdaBuffers/Runtime/Json.ts`
+// Unit tests for functionality in `src/Prelude/Runtime/Json.ts`
 import { describe, it } from "node:test";
 import * as assert from "node:assert/strict";
 
-import * as LbPrelude from "../LambdaBuffers/Prelude.js";
-import { Scientific } from "../LambdaBuffers/Prelude.js";
-import type { Value } from "../LambdaBuffers/Prelude.js";
+import * as Prelude from "../Prelude/Prelude.js";
+import { Scientific } from "../Prelude/Prelude.js";
+import type { Value } from "../Prelude/Prelude.js";
 
 describe("Scientific tests", () => {
   // `scientificIt` wraps `it` to verify that the Scientific's  value is as
@@ -48,7 +48,7 @@ describe("JSON Parsing Tests", () => {
   // expected.
   function jsonFromStrIt(str: string, v: Value): void {
     it(str, () => {
-      assert.deepStrictEqual(LbPrelude.parseJson(str), v);
+      assert.deepStrictEqual(Prelude.parseJson(str), v);
     });
   }
 
@@ -195,7 +195,7 @@ describe("JSON Parsing Invalid Tests", () => {
   function jsonFromStrIt(str: string): void {
     it(str, () => {
       try {
-        LbPrelude.parseJson(str);
+        Prelude.parseJson(str);
       } catch (_error) {
         return;
       }
@@ -270,10 +270,10 @@ describe("JSON Parsing Value Roundtrip Tests", () => {
   //             ---------> Value
   //  ```
   function jsonIt(val: Value): void {
-    it(`${LbPrelude.stringify(val)} round trip`, () => {
+    it(`${Prelude.stringify(val)} round trip`, () => {
       assert.deepStrictEqual(
         val,
-        LbPrelude.parseJson(LbPrelude.stringify(val)),
+        Prelude.parseJson(Prelude.stringify(val)),
       );
     });
   }
