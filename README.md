@@ -15,3 +15,7 @@ The following functionality has been implemented.
 - `Map` and `Set` containers where keys are ordered by a given `Ord` instance
 
 - `JSON` serializers and deserializers which can parse large numbers.
+
+## Documentation
+
+- [API reference](https://mlabs-haskell.github.io/prelude-typescript/index.html)
