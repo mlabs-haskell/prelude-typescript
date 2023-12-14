@@ -1,5 +1,5 @@
 /**
- * `Eq` is a typeclass for "deep" i.e., all substructures recursively are equal by
+ * {@link Eq} is a typeclass for "deep" equality i.e., all substructures recursively are equal by
  * value.
  */
 export interface Eq<A> {
