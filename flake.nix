@@ -42,6 +42,7 @@
                   '';
               }));
 
+              # Documentation from `npm run docs`
               docs = config.packages.default.overrideAttrs (_self: (_super: {
                 npmBuildScript = "docs";
                 installPhase =
