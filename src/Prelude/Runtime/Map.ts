@@ -8,7 +8,7 @@ import type { Maybe } from "./Maybe.js";
  *
  * @example
  * ```ts
- * import * as Prelude from "lbr-prelude"
+ * import * as Prelude from "prelude/Map.js"
  *
  * let map : Map<string, string> = new Map();
  * insert(Prelude.ordString,  "a", "b", map)
