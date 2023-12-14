@@ -104,7 +104,7 @@ export function remove<K, V>(ordDict: Ord<K>, key: K, map: Map<K, V>): void {
 }
 
 /**
- * {@link lookup} lookups up the value corresponding to the given key returning
+ * {@link lookup} looks up the value corresponding to the given key returning
  * `Just` the corresponding value or `Nothing` if it does not exist.
  *
  * Complexity: `O(log n)`
