@@ -6,6 +6,8 @@ import * as PMap from "./Map.js";
  *
  * @remarks
  * `fromJson` throws an exception (most likely {@link JsonError}) when it fails.
+ *
+ * @see {@link stringify} and {@link parseJson} for serialization and deserialization
  */
 export interface Json<A> {
   readonly toJson: (arg: Readonly<A>) => Value;
@@ -13,7 +15,7 @@ export interface Json<A> {
 }
 
 /**
- * `Value` is a JSON value.
+ * {@link Value} is a JSON value.
  *
  * @remarks
  * This closely follows the Haskell library {@link https://hackage.haskell.org/package/aeson | aeson}.
@@ -833,4 +835,61 @@ export function parseJson(input: string): Value {
   }
 
   return value;
+}
+
+/**
+ * Corresponds to the Haskell function
+ * @internal
+ */
+export function jsonObject(kvs: [string, Value][]): Value {
+  const obj: Value = {};
+  for (const kv of kvs) {
+    obj[kv[0]] = kv[1];
+  }
+  return obj;
+}
+
+/**
+ * Corresponds to the Haskell function
+ * @internal
+ */
+export function jsonArray(vs: Value[]): Value {
+  return vs;
+}
+
+/**
+ * Corresponds to the Haskell function
+ * @internal
+ */
+export function caseJsonObject<A>(
+  f: (obj: { [index: string]: Value }) => A,
+  value: Value,
+): A {
+  if (!isJsonObject(value)) {
+    // TODO(jaredponn): improve the error message
+    throw new JsonError(`JSON Value is not an object`);
+  }
+
+  return f(value);
+}
+
+/**
+ * Corresponds to the Haskell function
+ * @internal
+ */
+export function jsonField<A>(
+  name: string,
+  f: (val: Value) => A,
+  value: Value,
+): A {
+  if (!isJsonObject(value)) {
+    // TODO(jaredponn): improve the error message
+    throw new JsonError(`JSON Value is not an object`);
+  }
+
+  if (value[name] === undefined) {
+    throw new JsonError(`JSON Value must have ${name}`);
+  }
+
+  return f(value);
 }
