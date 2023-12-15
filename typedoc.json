@@ -1,6 +1,7 @@
 {
   "entryPoints": [
     "./src/Prelude/Prelude.ts",
+    "./src/Prelude/Runtime/Json.ts",
     "./src/Prelude/Runtime/Map.ts",
     "./src/Prelude/Runtime/Set.ts"
   ],
