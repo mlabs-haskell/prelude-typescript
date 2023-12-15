@@ -1,8 +1,7 @@
 {
   "name": "prelude",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Prelude for TypeScript",
-  "lockfileVersion": 2,
   "exports": {
     ".": "./dist/Prelude/Prelude.js",
     "./Map.js": "./dist/Prelude/Runtime/Map.js",
