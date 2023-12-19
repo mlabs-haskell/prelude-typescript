@@ -33,12 +33,12 @@
 
               # Tarball created from `npm pack`
               tgz = config.packages.default.overrideAttrs (_self: (super: {
-                name = "${super.pname}-${super.version}.tgz";
+                name = "${super.pname}-${super.version}-tarball";
                 makeCacheWritable = true;
                 installPhase =
                   ''
-                    tgzFile=$(npm --log-level=verbose pack | tail -n 1)
-                    mv $tgzFile $out
+                    mkdir -p $out/tarballs
+                    npm pack --pack-destination $out/tarballs
                   '';
               }));
 
