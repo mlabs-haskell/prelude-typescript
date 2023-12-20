@@ -32,6 +32,10 @@ export class Map<K, V> {
     this.tree = null;
     this.length = 0;
   }
+
+  *[Symbol.iterator](): IterableIterator<Readonly<[K, V]>> {
+    yield* PAvlTree.iterator(this.tree);
+  }
 }
 
 /**

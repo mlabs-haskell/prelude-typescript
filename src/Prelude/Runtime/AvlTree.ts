@@ -28,6 +28,17 @@ export function forEach<K>(node: Readonly<Node<K>>, f: (arg: K) => void): void {
   }
 }
 
+export function* iterator<K>(node: Node<K>): IterableIterator<K> {
+  if (node === null) {
+    return;
+  } else {
+    yield* iterator(node.left);
+    yield node.element;
+    yield* iterator(node.right);
+    return;
+  }
+}
+
 /**
  * Flattens the AVL tree into an array s.t. the smallest elements are first.
  */
@@ -301,7 +312,11 @@ export function checkInvariants<K>(
   go(node);
 }
 
-export function lookup<K>(ordDict: Ord<K>, k: K, node: Node<K>): undefined | K {
+export function lookup<K>(
+  ordDict: Ord<K>,
+  k: Readonly<K>,
+  node: Node<K>,
+): undefined | K {
   while (node !== null) {
     switch (ordDict.compare(k, node.element)) {
       case "LT":
