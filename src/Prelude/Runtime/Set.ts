@@ -13,6 +13,10 @@ export class Set<K> {
     this.tree = null;
     this.length = 0;
   }
+
+  *[Symbol.iterator](): IterableIterator<Readonly<K>> {
+    yield* PAvlTree.iterator(this.tree);
+  }
 }
 
 /**
@@ -69,7 +73,7 @@ export function remove<K>(ordDict: Ord<K>, key: K, set: Set<K>): void {
  */
 export function member<K>(
   ordDict: Ord<K>,
-  key: K,
+  key: Readonly<K>,
   set: Readonly<Set<K>>,
 ): boolean {
   return PAvlTree.lookup(ordDict, key, set.tree) !== undefined;

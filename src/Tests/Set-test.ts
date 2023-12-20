@@ -1,5 +1,6 @@
 // Mostly duplicated tests from `./Map-test.ts`
 import { describe } from "node:test";
+import * as assert from "node:assert/strict";
 
 import * as Prelude from "../Prelude/Prelude.js";
 import { Set } from "../Prelude/Runtime/Set.js";
@@ -255,7 +256,7 @@ describe("Set tests", () => {
     }
 
     for (const [key, _value] of Object.entries(insertions)) {
-      if (!PSet.member(Prelude.ordPrimitive, key, set)) {
+      if (!PSet.member(Prelude.ordPrimitive, Number.parseInt(key), set)) {
         throw new Error(
           `${key} is not in the set: ${JSON.stringify(set.tree)}`,
         );
@@ -278,7 +279,7 @@ describe("Set tests", () => {
     }
 
     for (const [key, _value] of Object.entries(insertions)) {
-      if (!PSet.member(Prelude.ordPrimitive, key, set)) {
+      if (!PSet.member(Prelude.ordPrimitive, Number.parseInt(key), set)) {
         throw new Error(
           `${key} is not in the set: ${JSON.stringify(set.tree)}`,
         );
@@ -371,7 +372,7 @@ describe("Set tests", () => {
     }
 
     for (const [key, _value] of Object.entries(insertions)) {
-      if (!PSet.member(Prelude.ordPrimitive, key, set)) {
+      if (!PSet.member(Prelude.ordPrimitive, Number.parseInt(key), set)) {
         throw new Error(
           `${key} is not in the set: ${JSON.stringify(set.tree)}`,
         );
@@ -414,7 +415,7 @@ describe("Set tests", () => {
     }
 
     for (const [key, _value] of Object.entries(insertions)) {
-      if (!PSet.member(Prelude.ordPrimitive, key, set)) {
+      if (!PSet.member(Prelude.ordPrimitive, Number.parseInt(key), set)) {
         throw new Error(
           `${key} is not in the set: ${JSON.stringify(set.tree)}`,
         );
@@ -437,5 +438,31 @@ describe("Set tests", () => {
         throw new Error("toList not strictly increasing");
       }
     }
+  });
+
+  describe("toList is same as iterator", () => {
+    const set: Set<string> = new Set();
+
+    insertAndCheck(Prelude.ordPrimitive, "b", set);
+    insertAndCheck(Prelude.ordPrimitive, "a", set);
+    insertAndCheck(Prelude.ordPrimitive, "d", set);
+    insertAndCheck(Prelude.ordPrimitive, "e", set);
+    insertAndCheck(Prelude.ordPrimitive, "a", set);
+    insertAndCheck(Prelude.ordPrimitive, "aa", set);
+    insertAndCheck(Prelude.ordPrimitive, "f", set);
+    insertAndCheck(Prelude.ordPrimitive, "g", set);
+    insertAndCheck(Prelude.ordPrimitive, "z", set);
+    insertAndCheck(Prelude.ordPrimitive, "dd", set);
+    insertAndCheck(Prelude.ordPrimitive, "ff", set);
+    insertAndCheck(Prelude.ordPrimitive, "y", set);
+    insertAndCheck(Prelude.ordPrimitive, "aa", set);
+    insertAndCheck(Prelude.ordPrimitive, "d", set);
+
+    assert.deepStrictEqual(set.length, 11);
+
+    assert.deepStrictEqual(
+      Array.from(set[Symbol.iterator]()),
+      PSet.toList(set),
+    );
   });
 });

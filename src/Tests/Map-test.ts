@@ -1,5 +1,6 @@
 import { describe } from "node:test";
 
+import * as assert from "node:assert/strict";
 import * as Prelude from "../Prelude/Prelude.js";
 import { Map } from "../Prelude/Runtime/Map.js";
 import * as PMap from "../Prelude/Runtime/Map.js";
@@ -489,5 +490,35 @@ describe("Map tests", () => {
         throw new Error("toList not strictly increasing");
       }
     }
+  });
+
+  describe("toList is same as iterator", () => {
+    const map: Map<string, string> = new Map();
+
+    insertAndCheck(
+      Prelude.ordPrimitive,
+      Prelude.eqPrimitive,
+      "b",
+      "c",
+      map,
+    );
+    insertAndCheck(
+      Prelude.ordPrimitive,
+      Prelude.eqPrimitive,
+      "a",
+      "b",
+      map,
+    );
+    insertAndCheck(
+      Prelude.ordPrimitive,
+      Prelude.eqPrimitive,
+      "d",
+      "f",
+      map,
+    );
+    assert.deepStrictEqual(
+      Array.from(map[Symbol.iterator]()),
+      PMap.toList(map),
+    );
   });
 });
