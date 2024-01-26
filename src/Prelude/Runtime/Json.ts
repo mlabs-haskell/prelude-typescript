@@ -890,9 +890,10 @@ export function jsonField<A>(
     throw new JsonError(`JSON Value is not an object`);
   }
 
-  if (value[name] === undefined) {
+  const nameValue = value[name];
+  if (nameValue === undefined) {
     throw new JsonError(`JSON Value must have ${name}`);
   }
 
-  return f(value);
+  return f(nameValue);
 }
