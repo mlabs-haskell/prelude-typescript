@@ -52,6 +52,15 @@ describe("JSON Parsing Tests", () => {
     });
   }
 
+  // `jsontoStrIt` wraps `it` to verify that the serialized value is as
+  // expected.
+  // WARN(jaredponn): these kinds of tests are a bit flaky as there are multiple valid serializations of JSON objects
+  function jsonToStrIt(v: Value, str: string): void {
+    it(str, () => {
+      assert.deepStrictEqual(str, Prelude.stringify(v));
+    });
+  }
+
   // Basic number parsing tests
   jsonFromStrIt(
     "1321432143211342342342114322312321241234123123432",
@@ -187,6 +196,19 @@ describe("JSON Parsing Tests", () => {
   // Whitespace
   jsonFromStrIt("\t\r\n true ", true);
   jsonFromStrIt("true \t\r\n ", true);
+
+  // Some random serialization tests
+  jsonToStrIt({ dog: true, cat: false }, `{"dog":true,"cat":false}`);
+  jsonToStrIt(
+    {
+      dog: new Scientific(
+        1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111n,
+        0n,
+      ),
+      cat: false,
+    },
+    `{"dog":1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111,"cat":false}`,
+  );
 });
 
 describe("JSON Parsing Invalid Tests", () => {
@@ -313,4 +335,32 @@ describe("JSON Parsing Value Roundtrip Tests", () => {
   });
   jsonIt("我喜欢吃包子");
   jsonIt("\u0000");
+});
+
+describe("JSON Parsing string Roundtrip Tests", () => {
+  // `jsonIt` wraps `it` to verify that `this map` in the following diagram
+  // is the identity map
+  // WARNING(jaredponn): these kinds of tests are by defn. a bit "flaky" in the
+  // sense that string equality is too strong of a notion of equality for
+  // different valid serializations of a JSON object.
+  //  ```
+  //  string-parseJson()-> Value
+  //     \                   |
+  //     this map         stringify()
+  //         \               |
+  //           \             \/
+  //             ---------> string
+  //  ```
+  function jsonIt(str: string): void {
+    it(`${str} round trip`, () => {
+      assert.deepStrictEqual(
+        str,
+        Prelude.stringify(Prelude.parseJson(str)),
+      );
+    });
+  }
+
+  jsonIt(`{"dog":1,"cat":2}`);
+  jsonIt(`{"cat":2,"dog":1}`);
+  jsonIt(`{"fields":[1337,false,"c29tZSBieXRlcw=="],"name":"Foo"}`);
 });

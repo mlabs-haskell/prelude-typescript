@@ -150,6 +150,8 @@ export class Scientific {
  * - Stringification of {@link Scientific} uses its `toString()` method s.t.
  *   such numbers are printed as e.g. `10e5`, or `10`, etc.
  *
+ * - This does no checks for cyclic objects
+ *
  * @privateRemarks
  * Unfortunately, using `JSON.stringify` with the `replacer` argument is broken
  * e.g.
@@ -174,7 +176,7 @@ export function stringify(input: Readonly<Value>): string {
       const entries = Object.entries(val);
 
       if (entries.length !== 0) {
-        strs.push(`"${entries[0]![0]}":`);
+        strs.push(`${JSON.stringify(entries[0]![0])}:`);
         printValue(entries[0]![1]);
 
         for (let i = 1; i < entries.length; ++i) {
