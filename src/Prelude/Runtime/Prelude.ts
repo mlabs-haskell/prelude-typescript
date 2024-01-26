@@ -398,7 +398,9 @@ export function jsonSet<K>(ordDict: Ord<K>, dictK: Json<K>): Json<Set<K>> {
       return jsonList(dictK).toJson(PSet.toList(set));
     },
     fromJson: (value) => {
-      const arr = PJson.caseJsonArray<K>("Set", dictK.fromJson, value);
+      const arr = PJson.caseJsonArray<K[]>("Set", (arr) => {
+        return arr.map(dictK.fromJson);
+      }, value);
 
       const set: PSet.Set<K> = new PSet.Set();
       for (const k of arr) {
@@ -487,7 +489,9 @@ export function jsonList<A>(dict: Json<A>): Json<List<A>> {
       return list.map(dict.toJson);
     },
     fromJson: (value) => {
-      return PJson.caseJsonArray("List", dict.fromJson, value);
+      return PJson.caseJsonArray<A[]>("List", (arr) => {
+        return arr.map(dict.fromJson);
+      }, value);
     },
   };
 }

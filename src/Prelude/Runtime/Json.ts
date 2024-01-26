@@ -331,12 +331,13 @@ export function caseJsonMap<K, V>(
  */
 export function caseJsonArray<A>(
   _title: string,
-  parseElem: (arg: Value) => A,
+  parseElems: (arg: Value[]) => A,
   value: Readonly<Value>,
-): A[] {
+): A {
   // TODO(jaredponn): actually use `title` in the error messages.
   if (isJsonArray(value)) {
-    return value.map(parseElem);
+    // return value.map(parseElem);
+    return parseElems(value);
   } else {
     throw new JsonError("JSON Value is not an array");
   }
