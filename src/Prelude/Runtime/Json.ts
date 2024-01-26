@@ -224,16 +224,20 @@ export function stringify(input: Readonly<Value>): string {
  * `jsonConstructor(title, fields)` produces a JSON value as follows
  *
  * ```
- * { "name" : <title>
- * , "fields" : <fields>
+ * { "fields" : <fields>
+ * , "name" : <title>
  * }
  * ```
  * where `<title>` and `<fields>` are the parameters passed into the function.
  *
  * @internal
+ *
+ * @privateRemarks
+ * It's important that we order `fields` before `name` to be compatible with
+ * the JSON object serialized by Haskell
  */
 export function jsonConstructor(title: string, fields: Value[]): Value {
-  return { name: title, fields: fields };
+  return { fields: fields, name: title };
 }
 
 /**
