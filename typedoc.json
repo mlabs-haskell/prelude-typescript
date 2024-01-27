@@ -6,6 +6,7 @@
     "./src/Prelude/Runtime/Set.ts"
   ],
   "tsconfig": "./src/tsconfig-base.json",
+  "basePath": "./",
   "sourceLinkTemplate": "https://github.com/mlabs-haskell/prelude-typescript/blob/main/{path}#L{line}",
   "disableGit": true,
   "out": "docs"
