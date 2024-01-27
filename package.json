@@ -28,6 +28,6 @@
   },
   "files": [
     "./dist/Prelude/**/*",
-    "./extra-dependencies/**/*"
+    "./.extra-dependencies/**/*"
   ]
 }
