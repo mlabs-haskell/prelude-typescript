@@ -134,6 +134,17 @@ export function findMin<K>(node: Node<K>): Node<K> {
   return node;
 }
 
+export function findMax<K>(node: Node<K>): Node<K> {
+  if (node === null) {
+    return null;
+  }
+  while (node.right !== null) {
+    node = node.right;
+  }
+
+  return node;
+}
+
 export function remove<K>(ordDict: Ord<K>, key: K, node: Node<K>): Node<K> {
   function go(k: K, n: Node<K>): Node<K> {
     if (n === null) {
@@ -331,4 +342,34 @@ export function lookup<K>(
   }
 
   return undefined;
+}
+
+export function lookupLT<K>(
+  ordDict: Ord<K>,
+  k: Readonly<K>,
+  node: Node<K>,
+): undefined | K {
+  let ans: undefined | K = undefined;
+
+  while (node !== null) {
+    switch (ordDict.compare(k, node.element)) {
+      case "EQ":
+        node = findMax(node.left);
+        if (node === null) {
+          return ans;
+        }
+        ans = node.element;
+        return ans;
+
+      case "LT":
+        node = node.left;
+        break;
+      case "GT":
+        ans = node.element;
+        node = node.right;
+        break;
+    }
+  }
+
+  return ans;
 }

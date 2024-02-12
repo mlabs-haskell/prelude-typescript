@@ -130,6 +130,29 @@ export function lookup<K, V>(
 }
 
 /**
+ * {@link lookupLT} looks up the largest value in the {@link Map} for which its
+ * corresponding key is strictly smaller than the given key returning `Just` if
+ * such a value exists or `Nothing` otherwise.
+ *
+ * Complexity: `O(log n)`
+ */
+export function lookupLT<K, V>(
+  ordDict: Ord<K>,
+  key: K,
+  map: Readonly<Map<K, V>>,
+): Maybe<V> {
+  const lkup: undefined | [K, V] = PAvlTree.lookupLT(ordOnFst(ordDict), [
+    key,
+    null as V,
+  ], map.tree);
+  if (lkup === undefined) {
+    return { name: "Nothing" };
+  } else {
+    return { name: "Just", fields: lkup[1] };
+  }
+}
+
+/**
  * Returns a list of key value pairs in ascending order
  *
  * Complexity: `O(n)`
@@ -140,6 +163,9 @@ export function toList<K, V>(map: Readonly<Map<K, V>>): [K, V][] {
 
 /**
  * Checks the invariants of the internal AVL tree.
+ *
+ * @throws {@link Error}
+ * This exception is thrown if the invariants are violated
  *
  * @internal
  */
