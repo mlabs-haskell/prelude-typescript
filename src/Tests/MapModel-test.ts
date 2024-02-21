@@ -152,7 +152,7 @@ class LookupLTCommand implements fc.Command<Model, Real> {
 }
 
 /**
- * {@link RemoveCommand} a command for looking up a key
+ * {@link RemoveCommand} a command for removing a key
  */
 class RemoveCommand implements fc.Command<Model, Real> {
   #k: Prelude.Text;
@@ -179,22 +179,90 @@ class RemoveCommand implements fc.Command<Model, Real> {
 }
 
 /**
- * {@link LengthCommand} a command for getting the length
+ * {@link SplitCommand} a command for splitting the tree
  */
-class LengthCommand implements fc.Command<Model, Real> {
-  constructor() {}
+class SplitCommand implements fc.Command<Model, Real> {
+  #k: Prelude.Text;
+  #stay: Prelude.Bool; // false ===> keep the smaller part, true ===> keep the larger part
+
+  constructor(k: Readonly<Prelude.Text>, stay: Prelude.Bool) {
+    this.#k = k;
+    this.#stay = stay;
+  }
 
   check(_m: Readonly<Model>) {
     return true;
   }
 
   run(m: Model, r: Real) {
-    PMap.checkInvariants(Prelude.ordText, r);
-    assert.equal(r.length, m.size);
+    const [rl, found, rg] = PMap.split(Prelude.ordText, this.#k, r);
+
+    PMap.checkInvariants(Prelude.ordText, rl);
+    PMap.checkInvariants(Prelude.ordText, rg);
+
+    if (
+      !((found.name === "Nothing" && m.get(this.#k) === undefined) ||
+        (found.name === "Just" && found.fields === m.get(this.#k)))
+    ) {
+      assert.fail(
+        `Real has ${
+          JSON.stringify(found)
+        } as the found value during a split, but the model has ${
+          m.get(this.#k)
+        }`,
+      );
+    }
+
+    const nm = new Map();
+
+    if (this.#stay === false) {
+      for (const [key, value] of m) {
+        if (Prelude.ordText.compare(key, this.#k) === "LT") {
+          nm.set(key, value);
+        }
+      }
+
+      m.clear();
+
+      for (const [key, value] of nm) {
+        m.set(key, value);
+      }
+
+      r.tree = rl.tree;
+    } else {
+      for (const [key, value] of m) {
+        if (Prelude.ordText.compare(key, this.#k) === "GT") {
+          nm.set(key, value);
+        }
+      }
+
+      m.clear();
+
+      for (const [key, value] of nm) {
+        m.set(key, value);
+      }
+
+      r.tree = rg.tree;
+    }
+
+    // Check if the maps satisfy the ordering invariant
+    for (const [key, _value] of rl) {
+      assert.ok(
+        Prelude.ordText.compare(key, this.#k) === `LT`,
+        `LT map in split should all be strictly less than ${this.#k}`,
+      );
+    }
+
+    for (const [key, _value] of rg) {
+      assert.ok(
+        Prelude.ordText.compare(key, this.#k) === `GT`,
+        `GT map in split should all be strictly greater than ${this.#k}`,
+      );
+    }
   }
 
   toString() {
-    return `length`;
+    return `split(${JSON.stringify(this.#k)}, ${JSON.stringify(this.#stay)})`;
   }
 }
 
@@ -207,7 +275,9 @@ describe(`Map<Prelude.Text,Prelude.Text> model tests`, () => {
       fc.string().map((str) => new LookupCommand(str)),
       fc.string().map((str) => new LookupLTCommand(str)),
       fc.string().map((str) => new RemoveCommand(str)),
-      fc.constant(new LengthCommand()),
+      fc.tuple(fc.string(), fc.boolean()).map(([str, stay]) =>
+        new SplitCommand(str, stay)
+      ),
     ];
     fc.assert(
       fc.property(fc.commands(allCommands, {}), (cmds) => {
@@ -224,7 +294,8 @@ describe(`Map<Prelude.Text,Prelude.Text> model tests`, () => {
 
   const smallStringOptions = { minLength: 0, maxLength: 4 };
 
-  // We have some "small string" tests s.t. we can be almost certain that the
+  // We have some "small string" tests s.t. we can be almost certain that we'll
+  // have "hits" in insertions + deletions
   it(`Small ASCII string tests`, () => {
     const allCommands = [
       fc.tuple(fc.hexaString(smallStringOptions), fc.hexaString()).map((
@@ -233,11 +304,61 @@ describe(`Map<Prelude.Text,Prelude.Text> model tests`, () => {
       fc.hexaString(smallStringOptions).map((str) => new LookupCommand(str)),
       fc.hexaString(smallStringOptions).map((str) => new LookupLTCommand(str)),
       fc.hexaString(smallStringOptions).map((str) => new RemoveCommand(str)),
-      fc.constant(new LengthCommand()),
+      fc.tuple(fc.hexaString(smallStringOptions), fc.boolean()).map((
+        [str, stay],
+      ) => new SplitCommand(str, stay)),
     ];
     fc.assert(
       fc.property(
-        fc.commands(allCommands, { maxCommands: 256, size: "max" }),
+        fc.commands(allCommands, { maxCommands: 512, size: "max" }),
+        (cmds) => {
+          function s() {
+            return { model: new Map(), real: new PMap.Map() };
+          }
+          fc.modelRun(s, cmds);
+        },
+      ),
+      {
+        numRuns: 10_000,
+      },
+    );
+  });
+
+  // We make it more likely to generate an insertion so nontrivial maps are
+  // more likely
+  it(`Small ASCII string tests biased with more insertions`, () => {
+    const allCommands = [
+      fc.tuple(fc.hexaString(smallStringOptions), fc.hexaString()).map((
+        [k, v],
+      ) => new InsertCommand(k, v)),
+      fc.tuple(fc.hexaString(smallStringOptions), fc.hexaString()).map((
+        [k, v],
+      ) => new InsertCommand(k, v)),
+      fc.tuple(fc.hexaString(smallStringOptions), fc.hexaString()).map((
+        [k, v],
+      ) => new InsertCommand(k, v)),
+      fc.tuple(fc.hexaString(smallStringOptions), fc.hexaString()).map((
+        [k, v],
+      ) => new InsertCommand(k, v)),
+      fc.tuple(fc.hexaString(smallStringOptions), fc.hexaString()).map((
+        [k, v],
+      ) => new InsertCommand(k, v)),
+      fc.tuple(fc.hexaString(smallStringOptions), fc.hexaString()).map((
+        [k, v],
+      ) => new InsertCommand(k, v)),
+      fc.tuple(fc.hexaString(smallStringOptions), fc.hexaString()).map((
+        [k, v],
+      ) => new InsertCommand(k, v)),
+      fc.hexaString(smallStringOptions).map((str) => new LookupCommand(str)),
+      fc.hexaString(smallStringOptions).map((str) => new LookupLTCommand(str)),
+      fc.hexaString(smallStringOptions).map((str) => new RemoveCommand(str)),
+      fc.tuple(fc.hexaString(smallStringOptions), fc.boolean()).map((
+        [str, stay],
+      ) => new SplitCommand(str, stay)),
+    ];
+    fc.assert(
+      fc.property(
+        fc.commands(allCommands, { maxCommands: 512, size: "max" }),
         (cmds) => {
           function s() {
             return { model: new Map(), real: new PMap.Map() };
