@@ -373,3 +373,121 @@ export function lookupLT<K>(
 
   return ans;
 }
+
+/**
+ * {@link} splits the tree into a triple for which the resulting tuple has (in
+ * order):
+ *  - an AVL tree with all elements in `node` strictly smaller than `k`
+ *  - `k` in the tree
+ *  - an AVL tree with all elements in `node` strictly larger than `k`
+ */
+export function split<K>(
+  ordDict: Ord<K>,
+  k: Readonly<K>,
+  node: Node<K>,
+): [Node<K>, K | undefined, Node<K>] {
+  function go(n: Node<K>): [Node<K>, K | undefined, Node<K>] {
+    if (n === null) {
+      return [null, undefined, null];
+    } else {
+      switch (ordDict.compare(k, n.element)) {
+        case "EQ":
+          return [n.left, n.element, n.right];
+
+        case "LT": {
+          const [ll, lk, lr] = go(n.left);
+          return [ll, lk, join(ordDict, n.element, lr, n.right)];
+        }
+        case "GT": {
+          const [rl, rk, rr] = go(n.right);
+          return [join(ordDict, n.element, n.left, rl), rk, rr];
+        }
+      }
+    }
+  }
+
+  return go(node);
+}
+
+/**
+ * {@link join} concatenates the two trees `left` and `right`, and the single element
+ * `k` into a new AVL tree with all the elements from `left`, `right`, and k`
+ * assuming that
+ * ```
+ * l < k < r
+ * ```
+ * is satisfied for every `l` in `left` and `r` in `right`
+ */
+export function join<K>(
+  ordDict: Ord<K>,
+  k: Readonly<K>,
+  left: Node<K>,
+  right: Node<K>,
+): Node<K> {
+  const lh = nodeHeight(left);
+  const rh = nodeHeight(right);
+
+  if (lh === -1) {
+    right = insert(ordDict, k, right);
+    return right;
+  }
+
+  if (rh === -1) {
+    left = insert(ordDict, k, left);
+    return left;
+  }
+
+  if (lh === rh) {
+    const node = { element: k, height: -1, left, right };
+    node.height = newHeight(node);
+    return node;
+  }
+
+  let small: Node<K> = undefined as unknown as Node<K>;
+  let smallh = -1;
+  let large: Node<K> = undefined as unknown as Node<K>;
+
+  if (lh < rh) {
+    small = left;
+    smallh = lh;
+    large = right;
+  } else {
+    small = right;
+    smallh = rh;
+    large = left;
+  }
+
+  function goL(n: Node<K>): Node<K> {
+    if (n!.height <= smallh + 1) {
+      const nl = n!.left;
+
+      n!.left = { element: k, height: -1, left: small, right: nl };
+      n!.left.height = newHeight(n!.left);
+
+      return balance(n);
+    } else {
+      n!.left = goL(n!.left);
+      return balance(n);
+    }
+  }
+
+  function goR(n: Node<K>): Node<K> {
+    if (n!.height <= smallh + 1) {
+      const nr = n!.right;
+
+      n!.right = { element: k, height: -1, left: nr, right: small };
+      n!.right.height = newHeight(n!.right);
+
+      return balance(n);
+    } else {
+      n!.right = goR(n!.right);
+      return balance(n);
+    }
+  }
+
+  if (lh < rh) {
+    return goL(large);
+  } else {
+    return goR(large);
+  }
+}

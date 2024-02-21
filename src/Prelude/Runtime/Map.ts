@@ -13,24 +13,19 @@ import type { Maybe } from "./Maybe.js";
  * let map : Map<string, string> = new Map();
  * insert(Prelude.ordString,  "a", "b", map)
  * lookup(Prelude.ordString,  "a", map) // returns `"b"`
- * map.length // is 1
  *
  * insert(Prelude.ordString. "a", "c", map)
  * lookup(Prelude.ordString,  "a", map) // returns `"c"`
- * map.length // is 1
  *
  * remove(Prelude.ordString,  "a", map)
  * lookup(Prelude.ordString,  "a", map) // returns `undefined`
- * map.length // is 0
  * ```
  */
 export class Map<K, V> {
   tree: Node<[K, V]>;
-  length: number;
 
   constructor() {
     this.tree = null;
-    this.length = 0;
   }
 
   *[Symbol.iterator](): IterableIterator<Readonly<[K, V]>> {
@@ -74,13 +69,12 @@ export function insert<K, V>(
     ordOnFst(ordDict),
     (arg) => {
       if (arg === undefined) {
-        ++map.length;
         return [key, value];
       } else {
         return [key, value];
       }
     },
-    [key, null as V],
+    [key, undefined as V],
     map.tree,
   );
 }
@@ -98,11 +92,10 @@ export function remove<K, V>(ordDict: Ord<K>, key: K, map: Map<K, V>): void {
       if (arg === undefined) {
         return undefined;
       } else {
-        --map.length;
         return undefined;
       }
     },
-    [key, null as V],
+    [key, undefined as V],
     map.tree,
   );
 }
@@ -120,7 +113,7 @@ export function lookup<K, V>(
 ): Maybe<V> {
   const lkup: undefined | [K, V] = PAvlTree.lookup(ordOnFst(ordDict), [
     key,
-    null as V,
+    undefined as V,
   ], map.tree);
   if (lkup === undefined) {
     return { name: "Nothing" };
@@ -143,13 +136,45 @@ export function lookupLT<K, V>(
 ): Maybe<V> {
   const lkup: undefined | [K, V] = PAvlTree.lookupLT(ordOnFst(ordDict), [
     key,
-    null as V,
+    undefined as V,
   ], map.tree);
   if (lkup === undefined) {
     return { name: "Nothing" };
   } else {
     return { name: "Just", fields: lkup[1] };
   }
+}
+
+/**
+ * {@link split} splits the {@link Map} into the values whose associated key is
+ * strictly smaller than the provided `key`, the provided `key`'s value, and
+ * the values whose associated key are strictly larger than the provided `key`.
+ *
+ * Complexity: `O((log n)^2)`
+ */
+export function split<K, V>(
+  ordDict: Ord<K>,
+  key: K,
+  map: Map<K, V>,
+): [Map<K, V>, Maybe<V>, Map<K, V>] {
+  const [lt, found, gt] = PAvlTree.split<[K, V]>(ordOnFst(ordDict), [
+    key,
+    undefined as V,
+  ], map.tree);
+
+  const ltMap = new Map<K, V>();
+  ltMap.tree = lt;
+
+  const gtMap = new Map<K, V>();
+  gtMap.tree = gt;
+
+  return [
+    ltMap,
+    found !== undefined
+      ? { name: `Just`, fields: found[1] }
+      : { name: `Nothing` },
+    gtMap,
+  ];
 }
 
 /**
