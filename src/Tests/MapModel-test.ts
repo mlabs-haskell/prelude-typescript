@@ -294,7 +294,8 @@ describe(`Map<Prelude.Text,Prelude.Text> model tests`, () => {
 
   const smallStringOptions = { minLength: 0, maxLength: 4 };
 
-  // We have some "small string" tests s.t. we can be almost certain that the
+  // We have some "small string" tests s.t. we can be almost certain that we'll
+  // have "hits" in insertions + deletions
   it(`Small ASCII string tests`, () => {
     const allCommands = [
       fc.tuple(fc.hexaString(smallStringOptions), fc.hexaString()).map((
@@ -309,7 +310,55 @@ describe(`Map<Prelude.Text,Prelude.Text> model tests`, () => {
     ];
     fc.assert(
       fc.property(
-        fc.commands(allCommands, { maxCommands: 256, size: "max" }),
+        fc.commands(allCommands, { maxCommands: 512, size: "max" }),
+        (cmds) => {
+          function s() {
+            return { model: new Map(), real: new PMap.Map() };
+          }
+          fc.modelRun(s, cmds);
+        },
+      ),
+      {
+        numRuns: 10_000,
+      },
+    );
+  });
+
+  // We make it more likely to generate an insertion so nontrivial maps are
+  // more likely
+  it(`Small ASCII string tests biased with more insertions`, () => {
+    const allCommands = [
+      fc.tuple(fc.hexaString(smallStringOptions), fc.hexaString()).map((
+        [k, v],
+      ) => new InsertCommand(k, v)),
+      fc.tuple(fc.hexaString(smallStringOptions), fc.hexaString()).map((
+        [k, v],
+      ) => new InsertCommand(k, v)),
+      fc.tuple(fc.hexaString(smallStringOptions), fc.hexaString()).map((
+        [k, v],
+      ) => new InsertCommand(k, v)),
+      fc.tuple(fc.hexaString(smallStringOptions), fc.hexaString()).map((
+        [k, v],
+      ) => new InsertCommand(k, v)),
+      fc.tuple(fc.hexaString(smallStringOptions), fc.hexaString()).map((
+        [k, v],
+      ) => new InsertCommand(k, v)),
+      fc.tuple(fc.hexaString(smallStringOptions), fc.hexaString()).map((
+        [k, v],
+      ) => new InsertCommand(k, v)),
+      fc.tuple(fc.hexaString(smallStringOptions), fc.hexaString()).map((
+        [k, v],
+      ) => new InsertCommand(k, v)),
+      fc.hexaString(smallStringOptions).map((str) => new LookupCommand(str)),
+      fc.hexaString(smallStringOptions).map((str) => new LookupLTCommand(str)),
+      fc.hexaString(smallStringOptions).map((str) => new RemoveCommand(str)),
+      fc.tuple(fc.hexaString(smallStringOptions), fc.boolean()).map((
+        [str, stay],
+      ) => new SplitCommand(str, stay)),
+    ];
+    fc.assert(
+      fc.property(
+        fc.commands(allCommands, { maxCommands: 512, size: "max" }),
         (cmds) => {
           function s() {
             return { model: new Map(), real: new PMap.Map() };
