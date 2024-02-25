@@ -1827,11 +1827,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1707651209,
-        "narHash": "sha256-bVUptw8kqu1hwjMPEGFqiWAEdG2N9upTHyhV4Bpc+O8=",
+        "lastModified": 1708572724,
+        "narHash": "sha256-usUnCj/jVDdQuNzvjti1VLWp0YOmttpTbUesD3uRA48=",
         "owner": "mlabs-haskell",
         "repo": "flake-lang.nix",
-        "rev": "1c738f9a8ed77d244b47584ef265f704db0b1c5b",
+        "rev": "5bb4fdf556a2f2f23717c654c186f13f28b9c277",
         "type": "github"
       },
       "original": {
@@ -3429,11 +3429,11 @@
         "nixpkgs": "nixpkgs_34"
       },
       "locked": {
-        "lastModified": 1704029560,
-        "narHash": "sha256-a4Iu7x1OP+uSYpqadOu8VCPY+MPF3+f6KIi+MAxlgyw=",
+        "lastModified": 1708547820,
+        "narHash": "sha256-xU/KC1PWqq5zL9dQ9wYhcdgxAwdeF/dJCLPH3PNZEBg=",
         "owner": "hercules-ci",
         "repo": "hercules-ci-effects",
-        "rev": "d5cbf433a6ae9cae05400189a8dbc6412a03ba16",
+        "rev": "0ca27bd58e4d5be3135a4bef66b582e57abe8f4a",
         "type": "github"
       },
       "original": {
@@ -7337,11 +7337,11 @@
     },
     "nixpkgs_35": {
       "locked": {
-        "lastModified": 1708214945,
-        "narHash": "sha256-LwP/lKuPasVLqUX+XFf6DbW4BWmM7o5K5unx/dXCJWY=",
+        "lastModified": 1708751719,
+        "narHash": "sha256-0uWOKSpXJXmXswOvDM5Vk3blB74apFB6rNGWV5IjoN0=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "e015f24e508c549ab2ab2ad74dcdad3ae07513fe",
+        "rev": "f63ce824cd2f036216eb5f637dfef31e1a03ee89",
         "type": "github"
       },
       "original": {
