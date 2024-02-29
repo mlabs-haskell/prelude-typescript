@@ -5,16 +5,17 @@
  * @example
  * ```ts
  * import * as PMap from "prelude/Map.js"
+ * import * as Prelude from "prelude"
  *
- * let map : Map<string, string> = new Map();
- * insert(PMap.ordString,  "a", "b", map)
- * lookup(PMap.ordString,  "a", map) // returns `"b"`
+ * let pmap : Map<string, string> = new Map();
+ * PMap.insert(Prelude.ordString, "a", "b", pmap)
+ * PMap.lookup(Prelude.ordString, "a", pmap) // returns `Just "b"`
  *
- * insert(PMap.ordString. "a", "c", map)
- * lookup(PMap.ordString,  "a", map) // returns `"c"`
+ * PMap.insert(Prelude.ordString, "a", "c", pmap)
+ * PMap.lookup(Prelude.ordString, "a", pmap) // returns `Just "c"`
  *
- * remove(PMap.ordString,  "a", map)
- * lookup(PMap.ordString,  "a", map) // returns `undefined`
+ * PMap.remove(Prelude.ordString, "a", pmap)
+ * PMap.lookup(Prelude.ordString, "a", pmap) // returns `Nothing`
  * ```
  *
  * @module prelude/Map.js
