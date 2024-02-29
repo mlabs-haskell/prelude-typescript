@@ -1,13 +1,13 @@
 {
   "entryPoints": [
-    "./src/Prelude/Prelude.ts",
-    "./src/Prelude/Runtime/Json.ts",
-    "./src/Prelude/Runtime/Map.ts",
-    "./src/Prelude/Runtime/Set.ts"
+    "./src/Lib/index.ts",
+    "./src/Lib/Json.ts",
+    "./src/Lib/Map.ts",
+    "./src/Lib/Set.ts"
   ],
   "tsconfig": "./src/tsconfig-base.json",
-  "basePath": "./",
-  "sourceLinkTemplate": "https://github.com/mlabs-haskell/prelude-typescript/blob/main/{path}#L{line}",
+  "basePath": "./src/Lib",
+  "sourceLinkTemplate": "https://github.com/mlabs-haskell/prelude-typescript/blob/main/src/Lib/{path}#L{line}",
   "disableGit": true,
   "out": "docs"
 }

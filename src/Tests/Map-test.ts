@@ -1,10 +1,10 @@
 import { describe } from "node:test";
 
 import * as assert from "node:assert/strict";
-import * as Prelude from "../Prelude/Prelude.js";
-import { Map } from "../Prelude/Runtime/Map.js";
-import * as PMap from "../Prelude/Runtime/Map.js";
-import type { Eq, Ord } from "../Prelude/Prelude.js";
+import * as Prelude from "../Lib/index.js";
+import { Map } from "../Lib/Map.js";
+import * as PMap from "../Lib/Map.js";
+import type { Eq, Ord } from "../Lib/index.js";
 
 /**
  * Inserts the element in the map and checks

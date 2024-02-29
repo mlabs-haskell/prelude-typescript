@@ -2,7 +2,7 @@
   "files": [],
   "include": [],
   "references": [
-    { "path": "./Prelude" },
+    { "path": "./Lib" },
     { "path": "./Tests" }
   ]
 }

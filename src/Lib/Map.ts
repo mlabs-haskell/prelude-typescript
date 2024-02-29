@@ -1,3 +1,25 @@
+/**
+ * An implementation of maps from keys to values using the key's {@link Ord}
+ * instance.
+ *
+ * @example
+ * ```ts
+ * import * as PMap from "prelude/Map.js"
+ *
+ * let map : Map<string, string> = new Map();
+ * insert(PMap.ordString,  "a", "b", map)
+ * lookup(PMap.ordString,  "a", map) // returns `"b"`
+ *
+ * insert(PMap.ordString. "a", "c", map)
+ * lookup(PMap.ordString,  "a", map) // returns `"c"`
+ *
+ * remove(PMap.ordString,  "a", map)
+ * lookup(PMap.ordString,  "a", map) // returns `undefined`
+ * ```
+ *
+ * @module prelude/Map.js
+ */
+
 import type { Ord } from "./Ord.js";
 import * as PAvlTree from "./AvlTree.js";
 import type { Node } from "./AvlTree.js";
@@ -5,21 +27,6 @@ import type { Maybe } from "./Maybe.js";
 
 /**
  * A mapping from `K` to `V` where `K` must have a {@link Ord} instance.
- *
- * @example
- * ```ts
- * import * as Prelude from "prelude/Map.js"
- *
- * let map : Map<string, string> = new Map();
- * insert(Prelude.ordString,  "a", "b", map)
- * lookup(Prelude.ordString,  "a", map) // returns `"b"`
- *
- * insert(Prelude.ordString. "a", "c", map)
- * lookup(Prelude.ordString,  "a", map) // returns `"c"`
- *
- * remove(Prelude.ordString,  "a", map)
- * lookup(Prelude.ordString,  "a", map) // returns `undefined`
- * ```
  */
 export class Map<K, V> {
   tree: Node<[K, V]>;

@@ -1,3 +1,9 @@
+/**
+ * An implementation of a set of keys using the key's {@link Ord} instance.
+ *
+ * @module prelude/Set.js
+ */
+
 import type { Ord } from "./Ord.js";
 import * as PAvlTree from "./AvlTree.js";
 import type { Node } from "./AvlTree.js";

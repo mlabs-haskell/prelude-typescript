@@ -2,10 +2,10 @@
 import { describe } from "node:test";
 import * as assert from "node:assert/strict";
 
-import * as Prelude from "../Prelude/Prelude.js";
-import { Set } from "../Prelude/Runtime/Set.js";
-import * as PSet from "../Prelude/Runtime/Set.js";
-import type { Ord } from "../Prelude/Prelude.js";
+import * as Prelude from "../Lib/index.js";
+import { Set } from "../Lib/Set.js";
+import * as PSet from "../Lib/Set.js";
+import type { Ord } from "../Lib/index.js";
 
 /**
  * Inserts the element in the set and checks

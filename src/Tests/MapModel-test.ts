@@ -13,8 +13,8 @@
 import { describe, it } from "node:test";
 
 import * as assert from "node:assert/strict";
-import * as Prelude from "../Prelude/Prelude.js";
-import * as PMap from "../Prelude/Runtime/Map.js";
+import * as Prelude from "../Lib/index.js";
+import * as PMap from "../Lib/Map.js";
 import * as fc from "fast-check";
 
 type Model = Map<Prelude.Text, Prelude.Text>;
