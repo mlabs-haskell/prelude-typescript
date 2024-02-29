@@ -1,3 +1,20 @@
+/**
+ * Types and functions for working with JSON data.
+ *
+ * @example
+ * ```ts
+ * import * as PJson from 'prelude/Json.js'
+ *
+ * const myJsonString = `{ "largeInt":9999999999999999999999999999999999999999999999999999, "date": "December 13, 1989" }`
+ *
+ * const value : PJson.Value = PJson.parseJson(myJsonString)
+ *
+ * console.log(PJson.stringify(value))
+ * ```
+ *
+ * @module prelude/Json.js
+ */
+
 import type { Ord } from "./Ord.js";
 import * as PMap from "./Map.js";
 /**

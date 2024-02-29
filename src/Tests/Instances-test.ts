@@ -1,19 +1,12 @@
-// Unit tests for functionality in `src/Prelude/Runtime/Prelude.ts`
+// Unit tests for functionality in `src/Lib/Prelude.ts`
 import { describe, it } from "node:test";
 import * as assert from "node:assert/strict";
 
-import * as PMap from "../Prelude/Runtime/Map.js";
-import * as PSet from "../Prelude/Runtime/Set.js";
-import * as Prelude from "../Prelude/Prelude.js";
-import { Scientific } from "../Prelude/Prelude.js";
-import type {
-  Bool,
-  Char,
-  Eq,
-  Integer,
-  Json,
-  Value,
-} from "../Prelude/Prelude.js";
+import * as PMap from "../Lib/Map.js";
+import * as PSet from "../Lib/Set.js";
+import * as Prelude from "../Lib/index.js";
+import { Scientific } from "../Lib/index.js";
+import type { Bool, Char, Eq, Integer, Json, Value } from "../Lib/index.js";
 
 /**
  * `eqInstanceIt` wraps `it` for verifying that the Eq instance is as expected

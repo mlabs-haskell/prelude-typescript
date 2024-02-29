@@ -2,9 +2,9 @@
 import { describe, it } from "node:test";
 import * as assert from "node:assert/strict";
 
-import * as Prelude from "../Prelude/Prelude.js";
-import { Scientific } from "../Prelude/Prelude.js";
-import type { Value } from "../Prelude/Prelude.js";
+import * as Prelude from "../Lib/index.js";
+import { Scientific } from "../Lib/index.js";
+import type { Value } from "../Lib/index.js";
 
 describe("Scientific tests", () => {
   // `scientificIt` wraps `it` to verify that the Scientific's  value is as

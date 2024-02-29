@@ -3,15 +3,15 @@
   "version": "1.0.1",
   "description": "A Prelude for TypeScript",
   "exports": {
-    ".": "./dist/Prelude/Prelude.js",
-    "./Map.js": "./dist/Prelude/Runtime/Map.js",
-    "./Set.js": "./dist/Prelude/Runtime/Set.js",
-    "./Json.js": "./dist/Prelude/Runtime/Json.js",
+    ".": "./dist/Lib/index.js",
+    "./Map.js": "./dist/Lib/Map.js",
+    "./Set.js": "./dist/Lib/Set.js",
+    "./Json.js": "./dist/Lib/Json.js",
     "./package.json": "./package.json"
   },
   "type": "module",
   "scripts": {
-    "build": "npx tsc -b src/Prelude",
+    "build": "npx tsc -b src/Lib",
     "docs": "npx typedoc",
     "test": "npx tsc -b src/Tests && node --test"
   },
@@ -28,7 +28,7 @@
     "typescript": "^5.2.2"
   },
   "files": [
-    "./dist/Prelude/**/*",
+    "./dist/Lib/**/*",
     "./.extra-dependencies/**/*"
   ]
 }
