@@ -22,10 +22,10 @@
   "author": "Jared Pon",
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "*",
-    "fast-check": "*",
-    "typedoc": "*",
-    "typescript": "*"
+    "@types/node": "^20.8.10",
+    "fast-check": "^3.15.1",
+    "typedoc": "^0.25.4",
+    "typescript": "^5.2.2"
   },
   "files": [
     "./dist/Lib/**/*",
