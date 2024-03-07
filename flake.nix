@@ -5,7 +5,7 @@
     pre-commit-hooks-nix.url = "github:cachix/pre-commit-hooks.nix";
     pre-commit-hooks-nix.inputs.nixpkgs.follows = "nixpkgs";
     hci-effects.url = "github:hercules-ci/hercules-ci-effects";
-    flake-lang.url = "github:mlabs-haskell/flake-lang.nix";
+    flake-lang.url = "github:mlabs-haskell/flake-lang.nix?ref=jared/ts-tgz-to-folder";
   };
 
   outputs = inputs@{ flake-parts, ... }:
@@ -34,6 +34,9 @@
             packages = {
               # Tarball of the package
               tgz = tsFlake.packages.prelude-typescript-tgz;
+
+              # Unpacked tarball of the package
+              lib = tsFlake.packages.prelude-typescript-lib;
 
               # Documentation
               docs = tsFlake.packages.prelude-typescript.overrideAttrs (_self: (_super: {

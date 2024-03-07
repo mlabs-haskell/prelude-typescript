@@ -1827,15 +1827,16 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1707651209,
-        "narHash": "sha256-bVUptw8kqu1hwjMPEGFqiWAEdG2N9upTHyhV4Bpc+O8=",
+        "lastModified": 1709792119,
+        "narHash": "sha256-7L5d7l3dV5TfWATnbgzmSWc3JqtBfeyUSLLNepx/45g=",
         "owner": "mlabs-haskell",
         "repo": "flake-lang.nix",
-        "rev": "1c738f9a8ed77d244b47584ef265f704db0b1c5b",
+        "rev": "986f4eda475bf29e7eb969e7a1fa933e1d3da99b",
         "type": "github"
       },
       "original": {
         "owner": "mlabs-haskell",
+        "ref": "jared/ts-tgz-to-folder",
         "repo": "flake-lang.nix",
         "type": "github"
       }
