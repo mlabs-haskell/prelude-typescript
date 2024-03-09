@@ -35,6 +35,9 @@
               # Tarball of the package
               tgz = tsFlake.packages.prelude-typescript-tgz;
 
+              # Unpacked tarball of the package
+              lib = tsFlake.packages.prelude-typescript-lib;
+
               # Documentation
               docs = tsFlake.packages.prelude-typescript.overrideAttrs (_self: (_super: {
                 name = "docs";
