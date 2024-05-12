@@ -1827,11 +1827,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1712734531,
-        "narHash": "sha256-RAuzU0lqMOaW1Jrc801ghU87aSssYHDR0fSBknzxxXU=",
+        "lastModified": 1715162689,
+        "narHash": "sha256-ib2JfCUAs25dpcmihugV9z7WDKCaY6F7OnKDGhCffsM=",
         "owner": "mlabs-haskell",
         "repo": "flake-lang.nix",
-        "rev": "bd570f614db467992dd5627d0359df73d86dd907",
+        "rev": "c7cae76e2d21402440ab8ff8aab53647a87c7835",
         "type": "github"
       },
       "original": {
@@ -7176,11 +7176,11 @@
     },
     "nixpkgs_35": {
       "locked": {
-        "lastModified": 1714809261,
-        "narHash": "sha256-hfBmnYFyz9I1mdrC3tX1A+dF9cOUcds5PIMPxrT+cRk=",
+        "lastModified": 1715413075,
+        "narHash": "sha256-FCi3R1MeS5bVp0M0xTheveP6hhcCYfW/aghSTPebYL4=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "d32560238207b8e26d88b265207b216ee46b8450",
+        "rev": "e4e7a43a9db7e22613accfeb1005cca1b2b1ee0d",
         "type": "github"
       },
       "original": {
