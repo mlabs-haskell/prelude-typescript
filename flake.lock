@@ -1827,11 +1827,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1723452500,
-        "narHash": "sha256-cahAcyj4b8bUxfXp/J/UBJRiCEYTfygKyBngJywTqp4=",
+        "lastModified": 1727178379,
+        "narHash": "sha256-tnpDsS0R9KTu3SxPsuatAVysGe39F0SwwS82XxWHfT0=",
         "owner": "mlabs-haskell",
         "repo": "flake-lang.nix",
-        "rev": "9c7246f26c17c4ec4683c30f41c03d393b1d158c",
+        "rev": "185572ca12812f009456b212f5a6cae4e3e5baf8",
         "type": "github"
       },
       "original": {
@@ -7152,11 +7152,11 @@
     },
     "nixpkgs_35": {
       "locked": {
-        "lastModified": 1726871744,
-        "narHash": "sha256-V5LpfdHyQkUF7RfOaDPrZDP+oqz88lTJrMT1+stXNwo=",
+        "lastModified": 1727586919,
+        "narHash": "sha256-e/YXG0tO5GWHDS8QQauj8aj4HhXEm602q9swrrlTlKQ=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "a1d92660c6b3b7c26fb883500a80ea9d33321be2",
+        "rev": "2dcd9c55e8914017226f5948ac22c53872a13ee2",
         "type": "github"
       },
       "original": {
@@ -7692,11 +7692,11 @@
         "nixpkgs-stable": "nixpkgs-stable_8"
       },
       "locked": {
-        "lastModified": 1726745158,
-        "narHash": "sha256-D5AegvGoEjt4rkKedmxlSEmC+nNLMBPWFxvmYnVLhjk=",
+        "lastModified": 1727514110,
+        "narHash": "sha256-0YRcOxJG12VGDFH8iS8pJ0aYQQUAgo/r3ZAL+cSh9nk=",
         "owner": "cachix",
         "repo": "pre-commit-hooks.nix",
-        "rev": "4e743a6920eab45e8ba0fbe49dc459f1423a4b74",
+        "rev": "85f7a7177c678de68224af3402ab8ee1bcee25c8",
         "type": "github"
       },
       "original": {
