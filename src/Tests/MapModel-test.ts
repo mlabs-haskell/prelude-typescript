@@ -294,17 +294,29 @@ describe(`Map<Prelude.Text,Prelude.Text> model tests`, () => {
 
   const smallStringOptions = { minLength: 0, maxLength: 4 };
 
+  const items = "0123456789abcdef";
+
+  function hexa(): fc.Arbitrary<string> {
+    return fc.integer({ min: 0, max: 15 }).map((n) => items[n]!);
+  }
+
+  function hexaString(
+    constraints: fc.StringConstraints = {},
+  ): fc.Arbitrary<string> {
+    return fc.string({ ...constraints, unit: hexa() });
+  }
+
   // We have some "small string" tests s.t. we can be almost certain that we'll
   // have "hits" in insertions + deletions
   it(`Small ASCII string tests`, () => {
     const allCommands = [
-      fc.tuple(fc.hexaString(smallStringOptions), fc.hexaString()).map((
+      fc.tuple(hexaString(smallStringOptions), hexaString()).map((
         [k, v],
       ) => new InsertCommand(k, v)),
-      fc.hexaString(smallStringOptions).map((str) => new LookupCommand(str)),
-      fc.hexaString(smallStringOptions).map((str) => new LookupLTCommand(str)),
-      fc.hexaString(smallStringOptions).map((str) => new RemoveCommand(str)),
-      fc.tuple(fc.hexaString(smallStringOptions), fc.boolean()).map((
+      hexaString(smallStringOptions).map((str) => new LookupCommand(str)),
+      hexaString(smallStringOptions).map((str) => new LookupLTCommand(str)),
+      hexaString(smallStringOptions).map((str) => new RemoveCommand(str)),
+      fc.tuple(hexaString(smallStringOptions), fc.boolean()).map((
         [str, stay],
       ) => new SplitCommand(str, stay)),
     ];
@@ -328,31 +340,31 @@ describe(`Map<Prelude.Text,Prelude.Text> model tests`, () => {
   // more likely
   it(`Small ASCII string tests biased with more insertions`, () => {
     const allCommands = [
-      fc.tuple(fc.hexaString(smallStringOptions), fc.hexaString()).map((
+      fc.tuple(hexaString(smallStringOptions), hexaString()).map((
         [k, v],
       ) => new InsertCommand(k, v)),
-      fc.tuple(fc.hexaString(smallStringOptions), fc.hexaString()).map((
+      fc.tuple(hexaString(smallStringOptions), hexaString()).map((
         [k, v],
       ) => new InsertCommand(k, v)),
-      fc.tuple(fc.hexaString(smallStringOptions), fc.hexaString()).map((
+      fc.tuple(hexaString(smallStringOptions), hexaString()).map((
         [k, v],
       ) => new InsertCommand(k, v)),
-      fc.tuple(fc.hexaString(smallStringOptions), fc.hexaString()).map((
+      fc.tuple(hexaString(smallStringOptions), hexaString()).map((
         [k, v],
       ) => new InsertCommand(k, v)),
-      fc.tuple(fc.hexaString(smallStringOptions), fc.hexaString()).map((
+      fc.tuple(hexaString(smallStringOptions), hexaString()).map((
         [k, v],
       ) => new InsertCommand(k, v)),
-      fc.tuple(fc.hexaString(smallStringOptions), fc.hexaString()).map((
+      fc.tuple(hexaString(smallStringOptions), hexaString()).map((
         [k, v],
       ) => new InsertCommand(k, v)),
-      fc.tuple(fc.hexaString(smallStringOptions), fc.hexaString()).map((
+      fc.tuple(hexaString(smallStringOptions), hexaString()).map((
         [k, v],
       ) => new InsertCommand(k, v)),
-      fc.hexaString(smallStringOptions).map((str) => new LookupCommand(str)),
-      fc.hexaString(smallStringOptions).map((str) => new LookupLTCommand(str)),
-      fc.hexaString(smallStringOptions).map((str) => new RemoveCommand(str)),
-      fc.tuple(fc.hexaString(smallStringOptions), fc.boolean()).map((
+      hexaString(smallStringOptions).map((str) => new LookupCommand(str)),
+      hexaString(smallStringOptions).map((str) => new LookupLTCommand(str)),
+      hexaString(smallStringOptions).map((str) => new RemoveCommand(str)),
+      fc.tuple(hexaString(smallStringOptions), fc.boolean()).map((
         [str, stay],
       ) => new SplitCommand(str, stay)),
     ];
